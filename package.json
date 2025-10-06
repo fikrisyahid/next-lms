@@ -10,17 +10,41 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@mantine/carousel": "^8.3.3",
+    "@mantine/charts": "^8.3.3",
+    "@mantine/code-highlight": "^8.3.3",
+    "@mantine/core": "^8.3.3",
+    "@mantine/dates": "^8.3.3",
+    "@mantine/dropzone": "^8.3.3",
+    "@mantine/form": "^8.3.3",
+    "@mantine/hooks": "^8.3.3",
+    "@mantine/modals": "^8.3.3",
+    "@mantine/notifications": "^8.3.3",
+    "@mantine/nprogress": "^8.3.3",
+    "@mantine/spotlight": "^8.3.3",
+    "@mantine/tiptap": "^8.3.3",
+    "@prisma/client": "^6.16.3",
+    "@tiptap/extension-link": "^3.6.5",
+    "@tiptap/pm": "^3.6.5",
+    "@tiptap/react": "^3.6.5",
+    "@tiptap/starter-kit": "^3.6.5",
+    "dayjs": "^1.11.18",
+    "embla-carousel": "^8.5.2",
+    "embla-carousel-react": "^8.5.2",
+    "next": "15.5.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "next": "15.5.4"
+    "recharts": "^3.2.1"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@biomejs/biome": "2.2.0",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
+    "prisma": "^6.16.3",
     "tailwindcss": "^4",
-    "@biomejs/biome": "2.2.0"
+    "tsx": "^4.20.6",
+    "typescript": "^5"
   }
 }
