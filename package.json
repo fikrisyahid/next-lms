@@ -10,6 +10,7 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@bprogress/next": "^3.2.12",
     "@mantine/carousel": "^8.3.3",
     "@mantine/charts": "^8.3.3",
     "@mantine/code-highlight": "^8.3.3",
@@ -24,10 +25,12 @@
     "@mantine/spotlight": "^8.3.3",
     "@mantine/tiptap": "^8.3.3",
     "@prisma/client": "^6.16.3",
+    "@tabler/icons-react": "^3.35.0",
     "@tiptap/extension-link": "^3.6.5",
     "@tiptap/pm": "^3.6.5",
     "@tiptap/react": "^3.6.5",
     "@tiptap/starter-kit": "^3.6.5",
+    "add": "^2.0.6",
     "dayjs": "^1.11.18",
     "embla-carousel": "^8.5.2",
     "embla-carousel-react": "^8.5.2",

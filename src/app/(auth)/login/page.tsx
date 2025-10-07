@@ -1,0 +1,159 @@
+"use client";
+
+import { useRouter } from "@bprogress/next/app";
+import {
+  Anchor,
+  Button,
+  Center,
+  Checkbox,
+  Group,
+  Paper,
+  PasswordInput,
+  Stack,
+  Text,
+  TextInput,
+  Title,
+} from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
+import { useState } from "react";
+
+type LoginValues = {
+  username: string;
+  password: string;
+  remember: boolean;
+};
+
+export default function LoginPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const form = useForm<LoginValues>({
+    initialValues: {
+      username: "",
+      password: "",
+      remember: true,
+    },
+
+    validate: {
+      username: (value) =>
+        value.trim().length >= 3
+          ? null
+          : "Username must be at least 3 characters",
+      password: (value) =>
+        value.length >= 6 ? null : "Password must be at least 6 characters",
+    },
+  });
+
+  const handleSubmit = async (values: LoginValues) => {
+    setLoading(true);
+    try {
+      await new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if (values.username === "user" && values.password === "password") {
+            resolve("Login successful");
+            notifications.show({
+              color: "green",
+              title: "Login successful",
+              message: `Welcome back, ${values.username}!`,
+            });
+          } else {
+            reject(new Error("Invalid credentials"));
+          }
+        }, 1000);
+      });
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : "An unexpected error occurred";
+      notifications.show({
+        color: "red",
+        title: "Login failed",
+        message,
+      });
+    }
+    setLoading(false);
+  };
+
+  const handleBackToHome = () => {
+    router.push("/");
+  };
+
+  return (
+    <Center>
+      <Paper
+        radius="md"
+        p="xl"
+        withBorder
+        shadow="sm"
+        style={{ width: 420, maxWidth: "100%" }}
+      >
+        <Stack gap="xs">
+          <div>
+            <Title order={2}>Sign In</Title>
+            <Text size="sm" c="dimmed">
+              Sign in to browse digital books
+            </Text>
+          </div>
+
+          <form
+            onSubmit={form.onSubmit((values) => {
+              void handleSubmit(values);
+            })}
+          >
+            <Stack gap="md">
+              <TextInput
+                label="Username"
+                placeholder="Input your username"
+                required
+                {...form.getInputProps("username")}
+              />
+
+              <PasswordInput
+                label="Password"
+                placeholder="Input your password"
+                required
+                {...form.getInputProps("password")}
+              />
+
+              <Group align="center">
+                <Checkbox
+                  label="Remember me"
+                  {...form.getInputProps("remember", { type: "checkbox" })}
+                />
+
+                <Anchor<"a">
+                  href="#"
+                  size="sm"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  Forgot password?
+                </Anchor>
+              </Group>
+
+              <Button type="submit" fullWidth loading={loading} radius="md">
+                Sign In
+              </Button>
+              <Button
+                variant="default"
+                fullWidth
+                radius="md"
+                onClick={handleBackToHome}
+              >
+                Back to Home
+              </Button>
+            </Stack>
+          </form>
+
+          <Group mt="md">
+            <Text size="sm">
+              Don't have an account?{" "}
+              <Anchor<"a"> href="#" onClick={(e) => e.preventDefault()}>
+                Contact the admin
+              </Anchor>
+            </Text>
+          </Group>
+        </Stack>
+      </Paper>
+    </Center>
+  );
+}
