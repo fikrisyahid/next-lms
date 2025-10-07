@@ -4,7 +4,6 @@ import { useRouter } from "@bprogress/next/app";
 import {
   Anchor,
   Button,
-  Center,
   Checkbox,
   Group,
   Paper,
@@ -79,81 +78,79 @@ export default function LoginPage() {
   };
 
   return (
-    <Center>
-      <Paper
-        radius="md"
-        p="xl"
-        withBorder
-        shadow="sm"
-        style={{ width: 420, maxWidth: "100%" }}
-      >
-        <Stack gap="xs">
-          <div>
-            <Title order={2}>Sign In</Title>
-            <Text size="sm" c="dimmed">
-              Sign in to browse digital books
-            </Text>
-          </div>
+    <Paper
+      radius="md"
+      p="xl"
+      withBorder
+      shadow="sm"
+      style={{ width: 420, maxWidth: "100%" }}
+    >
+      <Stack gap="xs">
+        <div>
+          <Title order={2}>Sign In</Title>
+          <Text size="sm" c="dimmed">
+            Sign in to browse digital books
+          </Text>
+        </div>
 
-          <form
-            onSubmit={form.onSubmit((values) => {
-              void handleSubmit(values);
-            })}
-          >
-            <Stack gap="md">
-              <TextInput
-                label="Username"
-                placeholder="Input your username"
-                required
-                {...form.getInputProps("username")}
+        <form
+          onSubmit={form.onSubmit((values) => {
+            void handleSubmit(values);
+          })}
+        >
+          <Stack gap="md">
+            <TextInput
+              label="Username"
+              placeholder="Input your username"
+              required
+              {...form.getInputProps("username")}
+            />
+
+            <PasswordInput
+              label="Password"
+              placeholder="Input your password"
+              required
+              {...form.getInputProps("password")}
+            />
+
+            <Group align="center">
+              <Checkbox
+                label="Remember me"
+                {...form.getInputProps("remember", { type: "checkbox" })}
               />
 
-              <PasswordInput
-                label="Password"
-                placeholder="Input your password"
-                required
-                {...form.getInputProps("password")}
-              />
-
-              <Group align="center">
-                <Checkbox
-                  label="Remember me"
-                  {...form.getInputProps("remember", { type: "checkbox" })}
-                />
-
-                <Anchor<"a">
-                  href="#"
-                  size="sm"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  Forgot password?
-                </Anchor>
-              </Group>
-
-              <Button type="submit" fullWidth loading={loading} radius="md">
-                Sign In
-              </Button>
-              <Button
-                variant="default"
-                fullWidth
-                radius="md"
-                onClick={handleBackToHome}
+              <Anchor<"a">
+                href="#"
+                size="sm"
+                onClick={(e) => e.preventDefault()}
               >
-                Back to Home
-              </Button>
-            </Stack>
-          </form>
-
-          <Group mt="md">
-            <Text size="sm">
-              Don't have an account?{" "}
-              <Anchor<"a"> href="#" onClick={(e) => e.preventDefault()}>
-                Contact the admin
+                Forgot password?
               </Anchor>
-            </Text>
-          </Group>
-        </Stack>
-      </Paper>
-    </Center>
+            </Group>
+
+            <Button type="submit" fullWidth loading={loading} radius="md">
+              Sign In
+            </Button>
+            <Button
+              variant="default"
+              fullWidth
+              radius="md"
+              onClick={handleBackToHome}
+            >
+              Back to Home
+            </Button>
+          </Stack>
+        </form>
+
+        <Group mt="md">
+          <Text size="sm">
+            Don't have an account?{" "}
+            <Anchor<"a"> href="#" onClick={(e) => e.preventDefault()}>
+              Contact the admin
+            </Anchor>
+          </Text>
+        </Group>
+      </Stack>
+    </Paper>
   );
 }
