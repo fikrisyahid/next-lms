@@ -1,5 +1,6 @@
 "use client";
 
+import login from "@/lib/auth/login";
 import { useRouter } from "@bprogress/next/app";
 import {
   Anchor,
@@ -47,20 +48,23 @@ export default function LoginPage() {
   const handleSubmit = async (values: LoginValues) => {
     setLoading(true);
     try {
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          if (values.username === "user" && values.password === "password") {
-            resolve("Login successful");
-            notifications.show({
-              color: "green",
-              title: "Login successful",
-              message: `Welcome back, ${values.username}!`,
-            });
-          } else {
-            reject(new Error("Invalid credentials"));
-          }
-        }, 1000);
+      const result = await login({
+        username: values.username,
+        password: values.password,
+        rememberMe: values.remember,
       });
+
+      notifications.show({
+        color: "green",
+        title: "Login successful",
+        message: `Welcome back, ${result.username}!`,
+      });
+
+      if (result.role === "ADMIN") {
+        router.push("/admin/dashboard");
+      } else {
+        router.push("/");
+      }
     } catch (err: unknown) {
       const message =
         err instanceof Error ? err.message : "An unexpected error occurred";
@@ -95,7 +99,7 @@ export default function LoginPage() {
 
         <form
           onSubmit={form.onSubmit((values) => {
-            void handleSubmit(values);
+            handleSubmit(values);
           })}
         >
           <Stack gap="md">

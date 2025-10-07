@@ -1,32 +1,22 @@
-"use client";
-
-import { AppShell, Burger } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import type { ReactNode } from "react";
+import AdminLayoutClient from "./layout-client";
+import { getCurrentUser } from "@/lib/auth/get-current-user";
+import { redirect } from "next/navigation";
 
-export default function AdminLayout({ children }: { children: ReactNode }) {
-  const [opened, { toggle }] = useDisclosure();
+export default async function AdminLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const user = await getCurrentUser();
 
-  return (
-    <AppShell
-      layout="alt"
-      padding="md"
-      header={{ height: 60 }}
-      navbar={{
-        width: 240,
-        breakpoint: "sm",
-        collapsed: { mobile: !opened },
-      }}
-    >
-      <AppShell.Header>
-        <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+  if (!user) {
+    redirect("/login");
+  }
 
-        <div>Logo</div>
-      </AppShell.Header>
+  if (user?.role !== "ADMIN") {
+    redirect("/");
+  }
 
-      <AppShell.Navbar>Navbar</AppShell.Navbar>
-
-      <AppShell.Main>{children}</AppShell.Main>
-    </AppShell>
-  );
+  return <AdminLayoutClient>{children}</AdminLayoutClient>;
 }
