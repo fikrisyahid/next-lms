@@ -5,9 +5,9 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  binaryTargets   = ["native", "rhel-openssl-3.0.x", "linux-musl"]
-  output   = "./client"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x", "linux-musl"]
+  output        = "./client"
 }
 
 datasource db {
@@ -41,18 +41,27 @@ model Publisher {
   updatedAt DateTime @updatedAt
 }
 
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  ebooks    Ebook[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Ebook {
   id          String     @id @default(cuid())
   title       String
   author      String
   description String?
-  category    String?
+  categoryId  String?
+  category    Category?  @relation(fields: [categoryId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   thumbnail   String?
   publishedAt DateTime   @default(now())
   price       Float      @default(0.0)
-  user        User       @relation(fields: [userId], references: [id])
+  user        User       @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   userId      String
-  publisher   Publisher? @relation(fields: [publisherId], references: [id])
+  publisher   Publisher? @relation(fields: [publisherId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   publisherId String?
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
