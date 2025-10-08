@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import AdminLayoutClient from "./layout-client";
+import AdminLayoutClient from "./client";
 import { getCurrentUser } from "@/lib/auth/get-current-user";
 import { redirect } from "next/navigation";
 
