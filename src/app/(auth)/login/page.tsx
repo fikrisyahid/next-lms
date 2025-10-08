@@ -54,24 +54,32 @@ export default function LoginPage() {
         rememberMe: values.remember,
       });
 
+      if (result.status === "error") {
+        notifications.show({
+          color: "red",
+          title: "Login failed",
+          message: result.errorMessage,
+        });
+        setLoading(false);
+        return;
+      }
+
       notifications.show({
         color: "green",
         title: "Login successful",
-        message: `Welcome back, ${result.username}!`,
+        message: `Welcome back, ${result.user?.username}!`,
       });
 
-      if (result.role === "ADMIN") {
+      if (result.user?.role === "ADMIN") {
         router.push("/admin/dashboard");
       } else {
         router.push("/");
       }
-    } catch (err: unknown) {
-      const message =
-        err instanceof Error ? err.message : "An unexpected error occurred";
+    } catch {
       notifications.show({
         color: "red",
         title: "Login failed",
-        message,
+        message: "An unexpected error occurred",
       });
     }
     setLoading(false);

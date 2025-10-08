@@ -21,12 +21,12 @@ export default async function login({
   });
 
   if (!user) {
-    throw new Error("Username not registered");
+    return { status: "error", errorMessage: "Username not registered" };
   }
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid) {
-    throw new Error("Invalid credentials");
+    return { status: "error", errorMessage: "Invalid credentials" };
   }
 
   const token = jwt.sign(
@@ -46,5 +46,5 @@ export default async function login({
   });
 
   const { password: _, ...safeUser } = user;
-  return safeUser;
+  return { status: "success", user: safeUser };
 }

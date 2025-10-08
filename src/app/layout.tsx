@@ -11,6 +11,7 @@ import {
   mantineHtmlProps,
 } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
+import { ModalsProvider } from "@mantine/modals";
 import ProgressProviders from "@/components/progress-provider";
 
 const geistSans = Geist({
@@ -43,7 +44,9 @@ export default function RootLayout({
       >
         <MantineProvider>
           <Notifications />
-          <ProgressProviders>{children}</ProgressProviders>
+          <ModalsProvider>
+            <ProgressProviders>{children}</ProgressProviders>
+          </ModalsProvider>
         </MantineProvider>
       </body>
     </html>
