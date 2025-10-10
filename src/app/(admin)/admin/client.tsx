@@ -1,39 +1,40 @@
 "use client";
 
 import logout from "@/lib/auth/logout";
-import {
-  AppShell,
-  Burger,
-  Button,
-  Group,
-  Text,
-  ThemeIcon,
-} from "@mantine/core";
+import { AppShell, Burger, Button, Group, Text } from "@mantine/core";
 import {
   IconBooks,
   IconUsers,
   IconCategory,
   IconLogout,
+  IconDashboard,
 } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import type { ReactNode } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const sidebarContents = [
   {
-    label: "Ebooks",
+    label: "Dashboard",
+    icon: IconDashboard,
+    href: "/admin/dashboard",
+  },
+  {
+    label: "E-Books",
     icon: IconBooks,
-    color: "blue",
+    href: "/admin/ebooks",
   },
   {
     label: "Users",
     icon: IconUsers,
-    color: "green",
+    href: "/admin/users",
   },
   {
     label: "Categories",
     icon: IconCategory,
-    color: "teal",
+    href: "/admin/categories",
   },
 ];
 
@@ -42,6 +43,7 @@ export default function AdminLayoutClient({
 }: {
   children: ReactNode;
 }) {
+  const pathname = usePathname();
   const [opened, { toggle }] = useDisclosure();
 
   const logoutConfirmationModal = () =>
@@ -71,7 +73,13 @@ export default function AdminLayoutClient({
       styles={{
         navbar: {
           backgroundColor: "#2F3146 ",
+          borderRight: "0px"
         },
+        main: { backgroundColor: "#E0E0E0" },
+        header: {
+          backgroundColor: "#FFFFFF",
+          borderBottom: "0px"
+        }
       }}
     >
       <AppShell.Header>
@@ -83,17 +91,14 @@ export default function AdminLayoutClient({
               size="sm"
               hiddenFrom="sm"
             />
-            <Text fw={600}>Admin Dashboard</Text>
+            <Text fw={600}>Welcome, Admin</Text>
           </Group>
-          <Text c="dimmed" size="sm">
-            Welcome, Admin
-          </Text>
         </Group>
       </AppShell.Header>
 
       <AppShell.Navbar p="md">
         <div className="flex flex-col h-full">
-          <Group justify="space-between" align="start">
+          <Group justify="space-between" align="start" mb="md" mt="md">
             <div className="text-xl font-semibold mb-4 text-white text-center">
               Next Digital E-Library
             </div>
@@ -109,30 +114,18 @@ export default function AdminLayoutClient({
             {sidebarContents.map((item) => (
               <Button
                 key={item.label}
+                mb="sm"
                 variant="subtle"
-                color="gray"
+                color="white"
+                href={item.href}
+                component={Link}
                 fullWidth
-                leftSection={
-                  <ThemeIcon color={item.color} variant="light" size={30}>
-                    <item.icon size={18} />
-                  </ThemeIcon>
-                }
-                styles={(theme) => ({
-                  root: {
-                    marginBottom: theme.spacing.sm,
-                    color: theme.white,
-
-                    "&:hover": {
-                      backgroundColor: theme.colors.dark[6],
-                    },
-                  },
-                  section: {
-                    marginRight: theme.spacing.md,
-                  },
-                  inner: {
-                    justifyContent: "flex-start",
-                  },
-                })}
+                justify="start"
+                leftSection={<item.icon size={18} />}
+                style={{
+                  backgroundColor:
+                    pathname === item.href ? "#393C5A" : "transparent",
+                }}
               >
                 {item.label}
               </Button>
