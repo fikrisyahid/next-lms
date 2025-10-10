@@ -3,6 +3,7 @@ import "./globals.css";
 
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
+import 'mantine-datatable/styles.layer.css';
 
 import {
   ColorSchemeScript,
