@@ -35,6 +35,7 @@ export default function DeleteUserModal({
       notifications.show({
         title: "Success",
         message: "User deleted successfully",
+        color: "green",
       });
     } catch {
       notifications.show({
