@@ -16,24 +16,26 @@ export async function registerUser({
   password,
   role,
 }: RegisterInput) {
-  // Validasi basic
   if (!fullname || !username || !password || !role) {
-    throw new Error("All fields are required");
+    return {
+      status: "error",
+      message: "All fields are required",
+    }
   }
 
-  // Cek apakah username udah dipake
   const existingUser = await prisma.user.findUnique({
     where: { username },
   });
 
   if (existingUser) {
-    throw new Error("Username already exists");
+    return {
+      status: "error",
+      message: "Username already exists",
+    };
   }
 
-  // Hash password
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  // Simpan user baru
   const newUser = await prisma.user.create({
     data: {
       fullname,
@@ -50,5 +52,9 @@ export async function registerUser({
     },
   });
 
-  return newUser;
+  return {
+    status: "success",
+    user: newUser,
+    message: "User registered successfully",
+  };
 }
