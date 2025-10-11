@@ -47,11 +47,11 @@ export function RegisterForm() {
   const handleSubmit = (values: RegisterValues) => {
     startTransition(async () => {
       try {
-        const user = await registerUser(values);
+        const result = await registerUser(values);
 
         notifications.show({
           title: "Success",
-          message: `User ${user.username} with role ${user.role} created successfully!`,
+          message: `User ${result.user?.username} with role ${result.user?.role} created successfully!`,
           color: "green",
         });
 
