@@ -128,6 +128,7 @@ export default function AdminLayoutClient({
                   backgroundColor:
                     pathname === item.href ? "#393C5A" : "transparent",
                 }}
+                onClick={toggle}
               >
                 {item.label}
               </Button>
