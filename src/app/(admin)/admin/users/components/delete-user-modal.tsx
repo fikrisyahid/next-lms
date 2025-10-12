@@ -50,6 +50,7 @@ export default function DeleteUserModal({
   const handleConfirmDelete = () => {
     modals.openConfirmModal({
       title: "Are you sure?",
+      centered: true,
       children: (
         <Stack gap="sm">
           <Text size="sm">
