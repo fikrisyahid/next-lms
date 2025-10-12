@@ -1,6 +1,7 @@
-import { Title } from "@mantine/core";
+import { Skeleton, Title } from "@mantine/core";
 import AddUserForm from "./components/add-user-form";
 import UserTable from "./components/table";
+import { Suspense } from "react";
 
 export default async function UsersPage() {
   return (
@@ -9,7 +10,9 @@ export default async function UsersPage() {
         <Title>Users page</Title>
         <AddUserForm />
       </div>
-      <UserTable />
+      <Suspense fallback={<Skeleton height={80} radius="md" />}>
+        <UserTable />
+      </Suspense>
     </div>
   );
 }
