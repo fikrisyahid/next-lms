@@ -30,7 +30,12 @@ export default async function login({
   }
 
   const token = jwt.sign(
-    { id: user.id, username: user.username, role: user.role },
+    {
+      id: user.id,
+      fullname: user.fullname,
+      username: user.username,
+      role: user.role,
+    },
     SECRET,
     { expiresIn: "1d" }
   );

@@ -39,8 +39,10 @@ const sidebarContents = [
 ];
 
 export default function AdminLayoutClient({
+  user,
   children,
 }: {
+  user: { fullname: string; username: string; role: string };
   children: ReactNode;
 }) {
   const pathname = usePathname();
@@ -73,13 +75,13 @@ export default function AdminLayoutClient({
       styles={{
         navbar: {
           backgroundColor: "#2F3146 ",
-          borderRight: "0px"
+          borderRight: "0px",
         },
         main: { backgroundColor: "#E0E0E0" },
         header: {
           backgroundColor: "#FFFFFF",
-          borderBottom: "0px"
-        }
+          borderBottom: "0px",
+        },
       }}
     >
       <AppShell.Header>
@@ -91,7 +93,7 @@ export default function AdminLayoutClient({
               size="sm"
               hiddenFrom="sm"
             />
-            <Text fw={600}>Welcome, Admin</Text>
+            <Text fw={600}>Welcome, {user.fullname}</Text>
           </Group>
         </Group>
       </AppShell.Header>

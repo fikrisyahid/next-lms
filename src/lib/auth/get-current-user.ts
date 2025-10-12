@@ -14,6 +14,7 @@ export async function getCurrentUser() {
   try {
     const decoded = jwt.verify(token, SECRET) as {
       id: string;
+      fullname: string;
       username: string;
       role: string;
     };

@@ -23,5 +23,5 @@ export default async function AdminLayout({
     redirect("/");
   }
 
-  return <AdminLayoutClient>{children}</AdminLayoutClient>;
+  return <AdminLayoutClient user={user}>{children}</AdminLayoutClient>;
 }
