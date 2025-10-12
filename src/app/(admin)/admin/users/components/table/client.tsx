@@ -22,6 +22,7 @@ const columns = [
     accessor: "role",
     title: "Role",
     sortable: true,
+    width: 120,
     render: (record: ExtendedUser) => {
       const badgeColorBasedOnRole: {
         [key in ExtendedUser["role"]]: string;
