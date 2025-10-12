@@ -1,6 +1,6 @@
 "use client";
 
-import { registerUser } from "@/lib/auth/register";
+import { updateUser } from "@/app/api/users/update";
 import {
   Button,
   PasswordInput,
@@ -9,47 +9,64 @@ import {
   Text,
   TextInput,
   Modal,
+  ActionIcon,
+  Checkbox,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
-import { IconPlus } from "@tabler/icons-react";
+import { IconPencil } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-type RegisterValues = {
+type EditUserModalProps = {
+  userId: string;
   fullname: string;
   username: string;
-  password: string;
   role: "ADMIN" | "TEACHER" | "STUDENT";
 };
 
-export default function AddUserForm() {
+type UserValues = EditUserModalProps & {
+  password: string;
+};
+
+export default function EditUserModal({
+  userId,
+  fullname,
+  username,
+  role,
+}: EditUserModalProps) {
   const router = useRouter();
   const [opened, setOpened] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [changePassword, setChangePassword] = useState(false);
 
-  const form = useForm<RegisterValues>({
+  const form = useForm<UserValues>({
     initialValues: {
-      fullname: "",
-      username: "",
+      userId,
+      fullname,
+      username,
       password: "",
-      role: "STUDENT",
+      role,
     },
     validate: {
       fullname: (v) => (v.trim() ? null : "Full name is required"),
       username: (v) =>
         v.length >= 3 ? null : "Username must be at least 3 characters",
       password: (v) =>
-        v.length >= 6 ? null : "Password must be at least 6 characters",
+        !changePassword
+          ? null
+          : v.length >= 6
+            ? null
+            : "Password must be at least 6 characters",
       role: (v) => (v ? null : "Role is required"),
     },
   });
 
-  const handleSubmit = async (values: RegisterValues) => {
+  const handleSubmit = async (values: UserValues) => {
     setLoading(true);
     try {
-      const result = await registerUser(values);
+      const result = await updateUser(values);
 
       if (result.status === "error") {
         notifications.show({
@@ -81,17 +98,17 @@ export default function AddUserForm() {
     setLoading(false);
   };
 
-  const confirmSubmit = (values: RegisterValues) => {
+  const confirmSubmit = (values: UserValues) => {
     modals.openConfirmModal({
-      title: "Confirm user creation",
+      title: "Confirm user update",
       centered: true,
       children: (
         <Text size="sm">
-          Are you sure you want to add <b>{values.username}</b> as{" "}
+          Are you sure you want to update <b>{values.username}</b> as{" "}
           <b>{values.role}</b>?
         </Text>
       ),
-      labels: { confirm: "Yes, Add", cancel: "Cancel" },
+      labels: { confirm: "Yes, Update", cancel: "Cancel" },
       confirmProps: { color: "blue", loading },
       onConfirm: () => handleSubmit(values),
     });
@@ -99,17 +116,21 @@ export default function AddUserForm() {
 
   return (
     <>
-      <Button
+      <ActionIcon
+        variant="filled"
+        color="yellow"
         onClick={() => setOpened(true)}
-        leftSection={<IconPlus stroke={1.5} />}
       >
-        Add User
-      </Button>
+        <IconPencil style={{ width: "70%", height: "70%" }} stroke={1.5} />
+      </ActionIcon>
 
       <Modal
         opened={opened}
-        onClose={() => setOpened(false)}
-        title="Add New User"
+        onClose={() => {
+          setOpened(false);
+          form.reset();
+        }}
+        title="Update User"
         centered
       >
         <form onSubmit={form.onSubmit((values) => confirmSubmit(values))}>
@@ -128,10 +149,17 @@ export default function AddUserForm() {
               {...form.getInputProps("username")}
             />
 
+            <Checkbox
+              label="Change user password"
+              checked={changePassword}
+              onChange={(e) => setChangePassword(e.currentTarget.checked)}
+            />
+
             <PasswordInput
-              label="Password"
-              placeholder="Password"
+              label="New Password"
+              placeholder="New Password"
               required
+              disabled={!changePassword}
               {...form.getInputProps("password")}
             />
 
@@ -148,7 +176,7 @@ export default function AddUserForm() {
             />
 
             <Button type="submit" loading={loading} fullWidth>
-              Register
+              Update
             </Button>
           </Stack>
         </form>

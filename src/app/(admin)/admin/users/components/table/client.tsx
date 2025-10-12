@@ -1,12 +1,11 @@
 "use client";
 
-import { ActionIcon, Badge } from "@mantine/core";
-import { IconPencil } from "@tabler/icons-react";
-import Link from "next/link";
+import { Badge } from "@mantine/core";
 import type { ExtendedUser } from "@/app/types";
 import DeleteUserModal from "../delete-user-modal";
 import { CustomTable } from "@/components/custom-table";
 import type { DataTableColumn } from "mantine-datatable";
+import EditUserModal from "../edit-user-modal";
 
 const columns = [
   {
@@ -43,14 +42,12 @@ const columns = [
     width: 100,
     render: (record: ExtendedUser) => (
       <div className="flex flex-row justify-end gap-2">
-        <ActionIcon
-          variant="filled"
-          component={Link}
-          href={`/detail/${record.id}`}
-          color="yellow"
-        >
-          <IconPencil style={{ width: "70%", height: "70%" }} stroke={1.5} />
-        </ActionIcon>
+        <EditUserModal
+          userId={record.id}
+          fullname={record.fullname}
+          username={record.username}
+          role={record.role}
+        />
         <DeleteUserModal
           id={record.id}
           username={record.username}
