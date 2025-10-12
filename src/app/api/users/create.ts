@@ -22,6 +22,17 @@ async function addUser({
   }
 
   try {
+    const userExists = await prisma.user.findUnique({
+      where: { username },
+    });
+
+    if (userExists) {
+      return {
+        status: "error",
+        message: "Username already exists",
+      };
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await prisma.user.create({
       data: {
