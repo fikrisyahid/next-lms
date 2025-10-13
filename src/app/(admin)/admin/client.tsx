@@ -8,6 +8,7 @@ import {
   IconCategory,
   IconLogout,
   IconDashboard,
+  IconBook,
 } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
@@ -27,14 +28,19 @@ const sidebarContents = [
     href: "/admin/ebooks",
   },
   {
-    label: "Users",
-    icon: IconUsers,
-    href: "/admin/users",
-  },
-  {
     label: "Categories",
     icon: IconCategory,
     href: "/admin/categories",
+  },
+  {
+    label: "Publishers",
+    icon: IconBook,
+    href: "/admin/publishers",
+  },
+  {
+    label: "Users",
+    icon: IconUsers,
+    href: "/admin/users",
   },
 ];
 
@@ -76,11 +82,13 @@ export default function AdminLayoutClient({
         navbar: {
           backgroundColor: "#2F3146 ",
           borderRight: "0px",
+          boxShadow: "10px 0px 10px rgba(0, 0, 0, 0.1)",
         },
         main: { backgroundColor: "#E0E0E0" },
         header: {
           backgroundColor: "#FFFFFF",
           borderBottom: "0px",
+          boxShadow: "0px 10px 10px rgba(0, 0, 0, 0.1)",
         },
       }}
     >
@@ -117,17 +125,12 @@ export default function AdminLayoutClient({
               <Button
                 key={item.label}
                 mb="sm"
-                variant="subtle"
-                color="white"
+                color={pathname === item.href ? "#1A1B2C" : "#2F3146"}
                 href={item.href}
                 component={Link}
                 fullWidth
                 justify="start"
                 leftSection={<item.icon size={18} />}
-                style={{
-                  backgroundColor:
-                    pathname === item.href ? "#393C5A" : "transparent",
-                }}
                 onClick={toggle}
               >
                 {item.label}
