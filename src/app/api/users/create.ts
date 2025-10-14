@@ -3,7 +3,7 @@
 import prisma from "@/lib/db";
 import bcrypt from "bcrypt";
 
-async function addUser({
+async function createUser({
   fullname,
   username,
   password,
@@ -56,4 +56,4 @@ async function addUser({
   }
 }
 
-export { addUser };
+export { createUser };

@@ -80,7 +80,7 @@ export default function EditUserModal({
 
       notifications.show({
         title: "Success",
-        message: `User ${result?.user?.username} (${result.user?.role}) created successfully!`,
+        message: `User ${result?.user?.username} (${result.user?.role}) has been updated successfully!`,
         color: "green",
       });
 

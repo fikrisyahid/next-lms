@@ -1,6 +1,5 @@
 "use client";
 
-import { registerUser } from "@/lib/auth/register";
 import {
   Button,
   Center,
@@ -16,6 +15,7 @@ import {
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { useTransition } from "react";
+import { createUser } from "../api/users";
 
 type RegisterValues = {
   fullname: string;
@@ -47,7 +47,7 @@ export function RegisterForm() {
   const handleSubmit = (values: RegisterValues) => {
     startTransition(async () => {
       try {
-        const result = await registerUser(values);
+        const result = await createUser(values);
 
         notifications.show({
           title: "Success",

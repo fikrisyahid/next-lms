@@ -1,6 +1,6 @@
 "use client";
 
-import { registerUser } from "@/lib/auth/register";
+import { createUser } from "@/app/api/users";
 import {
   Button,
   PasswordInput,
@@ -49,7 +49,7 @@ export default function AddUserModal() {
   const handleSubmit = async (values: RegisterValues) => {
     setLoading(true);
     try {
-      const result = await registerUser(values);
+      const result = await createUser(values);
 
       if (result.status === "error") {
         notifications.show({
@@ -63,7 +63,7 @@ export default function AddUserModal() {
 
       notifications.show({
         title: "Success",
-        message: `User ${result?.user?.username} (${result.user?.role}) created successfully!`,
+        message: `User ${result?.user?.username} (${result.user?.role}) has been created successfully!`,
         color: "green",
       });
 

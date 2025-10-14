@@ -1,7 +1,7 @@
 "use server";
 
 import { getUser, getAllUsers } from "./read";
-import { addUser } from "./create";
+import { createUser } from "./create";
 import { deleteUser } from "./delete";
 
-export { getUser, getAllUsers, addUser, deleteUser };
+export { getUser, getAllUsers, createUser, deleteUser };
