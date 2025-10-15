@@ -37,6 +37,7 @@ model Publisher {
   id        String   @id @default(cuid())
   name      String
   ebooks    Ebook[]
+  logo      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
