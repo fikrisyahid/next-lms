@@ -19,7 +19,7 @@ export default function DeleteUserModal({
   role: string;
 }) {
   const router = useRouter();
-  const handleDeleteuser = async () => {
+  const handleDeleteUser = async () => {
     try {
       const result = await deleteUser(id);
 
@@ -66,7 +66,7 @@ role: ${role}`}
       ),
       labels: { confirm: "Delete user", cancel: "Cancel" },
       confirmProps: { color: "red" },
-      onConfirm: () => handleDeleteuser(),
+      onConfirm: () => handleDeleteUser(),
     });
   };
   return (
