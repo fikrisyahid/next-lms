@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/lib/db";
-import { supabase } from "@/lib/supabase";
+import { uploadToBucket } from "@/lib/storage/upload-to-bucket";
 
 type Params = {
   name: string;
@@ -17,24 +17,24 @@ async function createPublisher({ name, logo }: Params) {
     const existingPublisher = await prisma.publisher.findFirst({
       where: { name },
     });
+
     if (existingPublisher) {
-      return { status: "error", message: "Publisher already exists" };
+      return {
+        status: "error",
+        message: "Publisher with that name already exists",
+      };
     }
 
     let logoUrl: string | null = null;
     if (logo) {
-      const fileName = `publishers/${Date.now()}-${logo.name}`;
-      const { error } = await supabase.storage
-        .from("publisher-logos")
-        .upload(fileName, logo, { upsert: false });
+      const { results } = await uploadToBucket({
+        bucketName: "publisher-logos",
+        files: logo,
+      });
 
-      if (error) throw error;
-
-      const { data: publicUrlData } = supabase.storage
-        .from("publisher-logos")
-        .getPublicUrl(fileName);
-
-      logoUrl = publicUrlData.publicUrl;
+      if (results && results.length > 0) {
+        logoUrl = results[0].publicUrl || null;
+      }
     }
 
     const newPublisher = await prisma.publisher.create({

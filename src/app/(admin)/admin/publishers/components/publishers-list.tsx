@@ -1,8 +1,9 @@
 "use client";
 
-import { Card, Image, Text, SimpleGrid } from "@mantine/core";
+import { Card, Image, Text, SimpleGrid, Stack } from "@mantine/core";
 import { IconPhoto } from "@tabler/icons-react";
 import type { Publisher } from "../../../../../../prisma/client";
+import DeletePublisherModal from "./delete-publisher-modal";
 
 export default function PublisherList({
   publishers,
@@ -30,14 +31,14 @@ export default function PublisherList({
           radius="md"
           padding="sm"
           withBorder
-          className="flex flex-col items-center text-center hover:shadow-md transition-shadow"
+          className="flex flex-col items-center justify-between text-center hover:shadow-md transition-shadow"
         >
           {pub.logoUrl ? (
             <Image
               src={pub.logoUrl}
               alt={pub.name}
               height={100}
-              width="auto"
+              width={100}
               fit="contain"
               radius="md"
               mb="xs"
@@ -47,9 +48,12 @@ export default function PublisherList({
               <IconPhoto size={40} stroke={1.3} color="gray" />
             </div>
           )}
-          <Text fw={500} size="sm" mt="xs">
-            {pub.name}
-          </Text>
+          <Stack align="center">
+            <Text fw={500} size="sm" mt="xs">
+              {pub.name}
+            </Text>
+            <DeletePublisherModal id={pub.id} name={pub.name} />
+          </Stack>
         </Card>
       ))}
     </SimpleGrid>
