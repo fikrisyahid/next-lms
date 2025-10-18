@@ -13,8 +13,7 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import type { ReactNode } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import NavbarItems from "@/components/navbar-items";
 
 const sidebarContents = [
   {
@@ -26,6 +25,11 @@ const sidebarContents = [
     label: "E-Books",
     icon: IconBooks,
     href: "/admin/ebooks",
+    subItems: [
+      { label: "Categories", href: "/admin/categories" },
+      { label: "Previous releases", href: "#" },
+      { label: "Releases schedule", href: "#" },
+    ],
   },
   {
     label: "Categories",
@@ -51,7 +55,6 @@ export default function AdminLayoutClient({
   user: { fullname: string; username: string; role: string };
   children: ReactNode;
 }) {
-  const pathname = usePathname();
   const [opened, { toggle }] = useDisclosure();
 
   const logoutConfirmationModal = () =>
@@ -120,21 +123,15 @@ export default function AdminLayoutClient({
               color="white"
             />
           </Group>
-          <div className="flex-1">
+          <div className="flex-1 space-y-2">
             {sidebarContents.map((item) => (
-              <Button
+              <NavbarItems
                 key={item.label}
-                mb="sm"
-                color={pathname === item.href ? "#1A1B2C" : "#2F3146"}
+                label={item.label}
                 href={item.href}
-                component={Link}
-                fullWidth
-                justify="start"
-                leftSection={<item.icon size={18} />}
-                onClick={toggle}
-              >
-                {item.label}
-              </Button>
+                subItems={item.subItems}
+                leftIcon={<item.icon className="w-5 h-5 mr-2" />}
+              />
             ))}
           </div>
 
