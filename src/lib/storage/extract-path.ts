@@ -5,9 +5,13 @@
  *   Input:  https://xyz.supabase.co/storage/v1/object/public/publisher-logos/folder/abc.jpg
  *   Output: folder/abc.jpg
  */
-export function extractFilePathFromUrl(
-  { url, bucketName }: { url: string; bucketName: string }
-) {
+export function extractFilePathFromUrl({
+  url,
+  bucketName,
+}: {
+  url: string;
+  bucketName: string;
+}) {
   if (!url || !bucketName) return null;
 
   try {
