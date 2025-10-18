@@ -53,12 +53,11 @@ export default function EditUserModal({
       fullname: (v) => (v.trim() ? null : "Full name is required"),
       username: (v) =>
         v.length >= 3 ? null : "Username must be at least 3 characters",
-      password: (v) =>
-        !changePassword
-          ? null
-          : v.length >= 6
-            ? null
-            : "Password must be at least 6 characters",
+      password: (v) => {
+        if (!changePassword) return null;
+        if (v.length < 6) return "Password must be at least 6 characters";
+        return null;
+      },
       role: (v) => (v ? null : "Role is required"),
     },
   });
