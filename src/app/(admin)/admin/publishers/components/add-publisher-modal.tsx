@@ -19,7 +19,7 @@ export default function AddPublisherModal() {
   const router = useRouter();
   const [opened, setOpened] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [logo, setLogo] = useState<File | null>(null);
+  const [logo, setLogo] = useState<File>();
 
   const form = useForm<FormValues>({
     initialValues: { name: "" },
@@ -27,20 +27,11 @@ export default function AddPublisherModal() {
   });
 
   const handleSubmit = async (values: FormValues) => {
-    if (!logo) {
-      notifications.show({
-        title: "Error",
-        message: "Please upload a logo",
-        color: "red",
-      });
-      return;
-    }
-
     setLoading(true);
     try {
       const result = await createPublisher({
         name: values.name,
-        logo, // kirim ke server
+        logo,
       });
 
       if (result.status === "error") {
@@ -60,7 +51,7 @@ export default function AddPublisherModal() {
       });
 
       form.reset();
-      setLogo(null);
+      setLogo(undefined);
       setOpened(false);
       modals.closeAll();
       router.refresh();
@@ -113,7 +104,7 @@ export default function AddPublisherModal() {
               {...form.getInputProps("name")}
             />
 
-            <Text fw={500}>Publisher Logo</Text>
+            <Text fw={500}>Publisher Logo (optional)</Text>
             <Dropzone
               onDrop={(files) => setLogo(files[0])}
               accept={IMAGE_MIME_TYPE}
