@@ -3,17 +3,25 @@ import "./globals.css";
 
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
-import 'mantine-datatable/styles.layer.css';
-import '@mantine/dropzone/styles.css';
+import "mantine-datatable/styles.layer.css";
+import "@mantine/dropzone/styles.css";
 
 import {
   ColorSchemeScript,
   MantineProvider,
+  Typography,
   mantineHtmlProps,
 } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { ModalsProvider } from "@mantine/modals";
 import ProgressProviders from "@/components/progress-provider";
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-poppins",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,13 +34,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" {...mantineHtmlProps}>
+    <html lang="en" {...mantineHtmlProps} className={poppins.className}>
       <head>
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider>
+        <MantineProvider theme={{ fontFamily: poppins.style.fontFamily }}>
           <Notifications position="top-center" />
+          <Typography />
           <ModalsProvider>
             <ProgressProviders>{children}</ProgressProviders>
           </ModalsProvider>
