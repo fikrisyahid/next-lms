@@ -1,8 +1,8 @@
 "use client";
 
-import { Card, Image, Text, SimpleGrid, Stack } from "@mantine/core";
+import { Card, Image, SimpleGrid, Stack, Text } from "@mantine/core";
+import type { Publisher } from "@prisma/client";
 import { IconPhoto } from "@tabler/icons-react";
-import type { Publisher } from "../../../../../../prisma/client";
 import DeletePublisherModal from "./delete-publisher-modal";
 
 export default function PublisherList({
