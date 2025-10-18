@@ -2,6 +2,58 @@
 
 import { supabase } from "../supabase";
 
+type UploadResult = {
+  fileName: string;
+  publicUrl: string;
+  path: string;
+};
+
+type UploadEachFileParams = {
+  file: File | Blob;
+  bucketName: string;
+  folderPath: string;
+};
+
+async function uploadEachFile({
+  file,
+  bucketName,
+  folderPath,
+}: UploadEachFileParams) {
+  const fileName = `${Date.now()}-${
+    file instanceof File ? file.name : "upload"
+  }`;
+
+  const fullPath = folderPath ? `${folderPath}/${fileName}` : fileName;
+
+  const { error: uploadError } = await supabase.storage
+    .from(bucketName)
+    .upload(fullPath, file);
+
+  if (uploadError) throw uploadError;
+
+  const { data: publicUrlData } = supabase.storage
+    .from(bucketName)
+    .getPublicUrl(fullPath);
+
+  return {
+    fileName,
+    publicUrl: publicUrlData.publicUrl,
+    path: fullPath,
+  };
+}
+
+type UploadToBucketParams = {
+  bucketName: string;
+  files: File | Blob | (File | Blob)[];
+  customPathFolder?: string;
+};
+
+type UploadToBucketResponse = Promise<{
+  status: "success" | "error";
+  message: string;
+  results?: UploadResult[];
+}>;
+
 /**
  * Upload single or multiple files to Supabase Storage
  * @param bucketName - Bucket name (e.g. "publisher-logos")
@@ -12,11 +64,7 @@ export async function uploadToBucket({
   bucketName,
   files,
   customPathFolder,
-}: {
-  bucketName: string;
-  files: File | Blob | (File | Blob)[];
-  customPathFolder?: string;
-}) {
+}: UploadToBucketParams): UploadToBucketResponse {
   if (!bucketName || !files) {
     return { status: "error", message: "Bucket name and files are required" };
   }
@@ -29,28 +77,7 @@ export async function uploadToBucket({
       : "";
 
     const uploadResults = await Promise.all(
-      fileArray.map(async (file) => {
-        const fileName = `${Date.now()}-${
-          file instanceof File ? file.name : "upload"
-        }`;
-        const fullPath = folderPath ? `${folderPath}/${fileName}` : fileName;
-
-        const { error: uploadError } = await supabase.storage
-          .from(bucketName)
-          .upload(fullPath, file);
-
-        if (uploadError) throw uploadError;
-
-        const { data: publicUrlData } = supabase.storage
-          .from(bucketName)
-          .getPublicUrl(fullPath);
-
-        return {
-          fileName,
-          publicUrl: publicUrlData.publicUrl,
-          path: fullPath,
-        };
-      })
+      fileArray.map((file) => uploadEachFile({ file, bucketName, folderPath }))
     );
 
     return {
