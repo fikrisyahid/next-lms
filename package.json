@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "bun run test && next build --turbopack",
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write",
     "seed": "tsx prisma/seed.ts",
-    "test": "vitest",
+    "test": "vitest run",
     "test:ui": "vitest --ui"
   },
   "dependencies": {
