@@ -19,8 +19,7 @@ export function extractFilePathFromUrl({
     const match = url.match(regex);
 
     return match ? match[1] : null;
-  } catch (err) {
-    console.error("❌ Failed to extract file path:", err);
+  } catch {
     return null;
   }
 }

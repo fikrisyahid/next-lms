@@ -2,17 +2,33 @@
 
 import prisma from "@/lib/db";
 
-async function getAllPublishers() {
+type GetAllPublishersOptions = {
+  ebooks_count?: boolean;
+};
+
+async function getAllPublishers(options?: GetAllPublishersOptions) {
   try {
+    const additionalSelect = options?.ebooks_count
+      ? { _count: { select: { ebooks: true } } }
+      : {};
+
     const publishers = await prisma.publisher.findMany({
       orderBy: {
         name: "asc",
       },
+      include: {
+        ...additionalSelect,
+      },
     });
+
+    const formattedPublishers = publishers.map((publisher) => ({
+      ...publisher,
+      ebooks_count: publisher._count?.ebooks || 0,
+    }));
 
     return {
       status: "success",
-      data: publishers,
+      data: formattedPublishers,
       message: "Publishers fetched successfully",
     };
   } catch {

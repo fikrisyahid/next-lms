@@ -26,13 +26,7 @@ export async function deleteFromBucket({
   const { error } = await supabase.storage.from(bucketName).remove(paths);
 
   if (error) {
-    console.error(
-      `❌ Failed to delete from bucket '${bucketName}':`,
-      error.message
-    );
     return { status: "error", message: error.message };
   }
-
-  console.log(`✅ Deleted ${paths.length} file(s) from '${bucketName}'`);
   return { status: "success", message: "File(s) deleted successfully" };
 }

@@ -60,6 +60,19 @@ export default function AddPublisherModal() {
     setLoading(false);
   };
 
+  const handleFileSizeCheck = (file: File) => {
+    const maxSizeInBytes = 1 * 1024 * 1024;
+    if (file.size > maxSizeInBytes) {
+      notifications.show({
+        title: "Ukuran file terlalu besar",
+        message: "Ukuran file logo tidak boleh lebih dari 1MB",
+        color: "red",
+      });
+      return false;
+    }
+    return true;
+  };
+
   const confirmSubmit = (values: FormValues) => {
     modals.openConfirmModal({
       title: "Konfirmasi Penambahan Penerbit",
@@ -103,13 +116,17 @@ export default function AddPublisherModal() {
 
             <Text fw={500}>Logo Penerbit (opsional)</Text>
             <Dropzone
-              onDrop={(files) => setLogo(files[0])}
+              onDrop={(files) => {
+                const fileSizeValid = handleFileSizeCheck(files[0]);
+                if (fileSizeValid) {
+                  setLogo(files[0]);
+                }
+              }}
               accept={IMAGE_MIME_TYPE}
               multiple={false}
-              maxSize={2 * 1024 * 1024}
             >
               <Text ta="center">
-                Drop atau klik untuk mengunggah logo (maks 2MB)
+                Drop atau klik untuk mengunggah logo (maks 1MB)
               </Text>
             </Dropzone>
 

@@ -1,4 +1,4 @@
-'use server';
+"use server";
 
 import prisma from "@/lib/db";
 
@@ -27,18 +27,14 @@ async function getUser(id: string) {
   }
 }
 
-interface IGetAllUsersOptions {
+type GetAllUsersOptions = {
   ebooks_count?: boolean;
-}
+};
 
-async function getAllUsers(options?: IGetAllUsersOptions) {
+async function getAllUsers(options?: GetAllUsersOptions) {
   try {
     const additionalSelect = options?.ebooks_count
-      ? {
-          _count: {
-            select: { ebooks: true },
-          },
-        }
+      ? { _count: { select: { ebooks: true } } }
       : {};
 
     const users = await prisma.user.findMany({

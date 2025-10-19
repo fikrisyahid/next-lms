@@ -1,7 +1,7 @@
 import { Title } from "@mantine/core";
 import AddPublisherModal from "./components/add-publisher-modal";
-import PublisherList from "./components/publishers-list";
 import { getAllPublishers } from "@/app/api/publishers";
+import PublisherTable from "./components/table";
 
 export default async function PublishersPage() {
   const publishers = await getAllPublishers();
@@ -16,7 +16,7 @@ export default async function PublishersPage() {
         <Title>Daftar Penerbit</Title>
         <AddPublisherModal />
       </div>
-      <PublisherList publishers={publishers.data || []} />
+      <PublisherTable />
     </div>
   );
 }

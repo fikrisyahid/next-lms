@@ -36,12 +36,20 @@ export default function LoginPage() {
     },
 
     validate: {
-      username: (value) =>
-        value.trim().length >= 3
-          ? null
-          : "Username must be at least 3 characters",
-      password: (value) =>
-        value.length >= 6 ? null : "Password must be at least 6 characters",
+      username: (value) => {
+        const trimmed = value.trim();
+        if (trimmed.length < 3) {
+          return "Username harus terdiri dari minimal 3 karakter";
+        }
+        return null;
+      },
+
+      password: (value) => {
+        if (value.length < 6) {
+          return "Password harus terdiri dari minimal 6 karakter";
+        }
+        return null;
+      },
     },
   });
 
@@ -66,8 +74,8 @@ export default function LoginPage() {
 
       notifications.show({
         color: "green",
-        title: "Login successful",
-        message: `Welcome back, ${result.user?.username}!`,
+        title: "Sukses login",
+        message: `Selamat datang kembali, ${result.user?.username}!`,
       });
 
       if (result.user?.role === "ADMIN") {
@@ -78,8 +86,8 @@ export default function LoginPage() {
     } catch {
       notifications.show({
         color: "red",
-        title: "Login failed",
-        message: "An unexpected error occurred",
+        title: "Gagal login",
+        message: "Terjadi kesalahan saat proses login",
       });
     }
     setLoading(false);
@@ -99,9 +107,9 @@ export default function LoginPage() {
     >
       <Stack gap="xs">
         <div>
-          <Title order={2}>Sign In</Title>
+          <Title order={2}>Login</Title>
           <Text size="sm" c="dimmed">
-            Sign in to browse digital books
+            Masuk untuk menjelajahi buku digital
           </Text>
         </div>
 
@@ -113,21 +121,21 @@ export default function LoginPage() {
           <Stack gap="md">
             <TextInput
               label="Username"
-              placeholder="Input your username"
+              placeholder="Masukkan username Anda"
               required
               {...form.getInputProps("username")}
             />
 
             <PasswordInput
               label="Password"
-              placeholder="Input your password"
+              placeholder="Masukkan password Anda"
               required
               {...form.getInputProps("password")}
             />
 
             <Group align="center">
               <Checkbox
-                label="Remember me"
+                label="Ingat saya"
                 {...form.getInputProps("remember", { type: "checkbox" })}
               />
 
@@ -136,12 +144,12 @@ export default function LoginPage() {
                 size="sm"
                 onClick={(e) => e.preventDefault()}
               >
-                Forgot password?
+                Lupa password?
               </Anchor>
             </Group>
 
             <Button type="submit" fullWidth loading={loading} radius="md">
-              Sign In
+              Masuk
             </Button>
             <Button
               variant="default"
@@ -149,16 +157,16 @@ export default function LoginPage() {
               radius="md"
               onClick={handleBackToHome}
             >
-              Back to Home
+              Kembali ke Beranda
             </Button>
           </Stack>
         </form>
 
         <Group mt="md">
           <Text size="sm">
-            Don't have an account?{" "}
+            Tidak memiliki akun?{" "}
             <Anchor<"a"> href="#" onClick={(e) => e.preventDefault()}>
-              Contact the admin
+              Hubungi admin
             </Anchor>
           </Text>
         </Group>

@@ -1,6 +1,7 @@
 "use server";
 
 import { supabase } from "../supabase";
+import getCleanString from "../utils/clean-string";
 
 type UploadResult = {
   fileName: string;
@@ -24,21 +25,22 @@ async function uploadEachFile({
   }`;
 
   const fullPath = folderPath ? `${folderPath}/${fileName}` : fileName;
+  const cleanFullPath = getCleanString(fullPath);
 
   const { error: uploadError } = await supabase.storage
     .from(bucketName)
-    .upload(fullPath, file);
+    .upload(cleanFullPath, file);
 
   if (uploadError) throw uploadError;
 
   const { data: publicUrlData } = supabase.storage
     .from(bucketName)
-    .getPublicUrl(fullPath);
+    .getPublicUrl(cleanFullPath);
 
   return {
     fileName,
     publicUrl: publicUrlData.publicUrl,
-    path: fullPath,
+    path: cleanFullPath,
   };
 }
 
@@ -87,7 +89,6 @@ export async function uploadToBucket({
     };
   } catch (err: unknown) {
     if (err instanceof Error) {
-      console.error(`❌ Failed to upload to '${bucketName}':`, err.message);
       return {
         status: "error",
         message: err.message || "Upload failed",
