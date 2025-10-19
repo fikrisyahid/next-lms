@@ -83,15 +83,15 @@ export default function AddUserModal() {
 
   const confirmSubmit = (values: RegisterValues) => {
     modals.openConfirmModal({
-      title: "Confirm user creation",
+      title: "Konfirmasi Penambahan Pengguna",
       centered: true,
       children: (
         <Text size="sm">
-          Are you sure you want to add <b>{values.username}</b> as{" "}
+          Apakah kamu yakin ingin menambahkan <b>{values.username}</b> sebagai{" "}
           <b>{values.role}</b>?
         </Text>
       ),
-      labels: { confirm: "Yes, Add", cancel: "Cancel" },
+      labels: { confirm: "Ya, Tambah", cancel: "Batal" },
       confirmProps: { color: "blue", loading },
       onConfirm: () => handleSubmit(values),
     });
@@ -103,20 +103,20 @@ export default function AddUserModal() {
         onClick={() => setOpened(true)}
         leftSection={<IconPlus stroke={1.5} />}
       >
-        Add User
+        Tambah Pengguna
       </Button>
 
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Add New User"
+        title="Tambah Pengguna Baru"
         centered
       >
         <form onSubmit={form.onSubmit((values) => confirmSubmit(values))}>
           <Stack gap="sm">
             <TextInput
-              label="Full name"
-              placeholder="Full name"
+              label="Nama Lengkap"
+              placeholder="Nama Lengkap"
               required
               {...form.getInputProps("fullname")}
             />
@@ -148,7 +148,7 @@ export default function AddUserModal() {
             />
 
             <Button type="submit" loading={loading} fullWidth>
-              Register
+              Tambah Pengguna
             </Button>
           </Stack>
         </form>

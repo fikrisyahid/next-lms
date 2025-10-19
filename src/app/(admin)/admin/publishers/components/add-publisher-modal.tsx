@@ -67,14 +67,15 @@ export default function AddPublisherModal() {
 
   const confirmSubmit = (values: FormValues) => {
     modals.openConfirmModal({
-      title: "Confirm publisher creation",
+      title: "Konfirmasi Penambahan Penerbit",
       centered: true,
       children: (
         <Text size="sm">
-          Are you sure you want to add publisher <b>{values.name}</b>?
+          Apakah kamu yakin ingin menambahkan penerbit dengan nama{" "}
+          <b>{values.name}</b>?
         </Text>
       ),
-      labels: { confirm: "Yes, Add", cancel: "Cancel" },
+      labels: { confirm: "Ya, Tambah", cancel: "Batal" },
       confirmProps: { color: "blue", loading },
       onConfirm: () => handleSubmit(values),
     });
@@ -86,32 +87,34 @@ export default function AddPublisherModal() {
         leftSection={<IconPlus stroke={1.5} />}
         onClick={() => setOpened(true)}
       >
-        Add Publisher
+        Tambah Penerbit
       </Button>
 
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Add New Publisher"
+        title="Tambah Penerbit Baru"
         centered
       >
         <form onSubmit={form.onSubmit(confirmSubmit)}>
           <Stack gap="sm">
             <TextInput
               label="Name"
-              placeholder="Publisher name"
+              placeholder="Nama Penerbit"
               required
               {...form.getInputProps("name")}
             />
 
-            <Text fw={500}>Publisher Logo (optional)</Text>
+            <Text fw={500}>Logo Penerbit (opsional)</Text>
             <Dropzone
               onDrop={(files) => setLogo(files[0])}
               accept={IMAGE_MIME_TYPE}
               multiple={false}
               maxSize={2 * 1024 * 1024}
             >
-              <Text ta="center">Drop or click to upload logo (max 2MB)</Text>
+              <Text ta="center">
+                Drop atau klik untuk mengunggah logo (maks 2MB)
+              </Text>
             </Dropzone>
 
             {logo && (
@@ -126,7 +129,7 @@ export default function AddPublisherModal() {
             )}
 
             <Button type="submit" loading={loading} fullWidth>
-              Create
+              Tambah Penerbit
             </Button>
           </Stack>
         </form>

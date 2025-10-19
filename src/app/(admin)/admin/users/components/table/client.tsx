@@ -15,12 +15,12 @@ const columns = [
     width: 60,
     sortable: true,
   },
-  { accessor: "fullname", title: "Full Name", sortable: true },
+  { accessor: "fullname", title: "Nama Lengkap", sortable: true },
   { accessor: "username", title: "Username", sortable: true },
-  { accessor: "ebooks_count", title: "E-Books Count", sortable: true },
+  { accessor: "ebooks_count", title: "Jumlah E-Books", sortable: true },
   {
     accessor: "role",
-    title: "Role",
+    title: "Hak Akses",
     sortable: true,
     width: 120,
     render: (record: ExtendedUser) => {
@@ -38,7 +38,7 @@ const columns = [
   },
   {
     accessor: "actions",
-    title: "Action",
+    title: "Aksi",
     textAlign: "right",
     width: 100,
     render: (record: ExtendedUser) => (

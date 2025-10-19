@@ -5,7 +5,6 @@ import { AppShell, Burger, Button, Group, Text } from "@mantine/core";
 import {
   IconBooks,
   IconUsers,
-  IconCategory,
   IconLogout,
   IconDashboard,
   IconBook,
@@ -24,25 +23,23 @@ const sidebarContents = [
   {
     label: "E-Books",
     icon: IconBooks,
-    href: "/admin/ebooks",
     subItems: [
-      { label: "Categories", href: "/admin/categories" },
-      { label: "Previous releases", href: "#" },
-      { label: "Releases schedule", href: "#" },
+      { label: "Daftar", href: "/admin/ebooks/" },
+      { label: "Kategori", href: "/admin/ebooks/categories" },
+      { label: "Kurikulum", href: "#" },
+      { label: "Jenjang Sekolah", href: "#" },
+      { label: "Kelas", href: "#" },
+      { label: "Mata Pelajaran", href: "#" },
+      { label: "Jenis E-Books", href: "#" },
     ],
   },
   {
-    label: "Categories",
-    icon: IconCategory,
-    href: "/admin/categories",
-  },
-  {
-    label: "Publishers",
+    label: "Penerbit",
     icon: IconBook,
     href: "/admin/publishers",
   },
   {
-    label: "Users",
+    label: "Pengguna",
     icon: IconUsers,
     href: "/admin/users",
   },
@@ -59,12 +56,12 @@ export default function AdminLayoutClient({
 
   const logoutConfirmationModal = () =>
     modals.openConfirmModal({
-      title: "Logout confirmation",
+      title: "Konfirmasi Logout",
       centered: true,
       children: (
         <Text size="sm">
-          Are you sure you want to logout? You will need to login again to
-          access the admin panel.
+          Apakah anda yakin ingin logout dari aplikasi? Anda harus login kembali
+          untuk mengakses panel admin.
         </Text>
       ),
       labels: { confirm: "Confirm", cancel: "Cancel" },
@@ -104,7 +101,7 @@ export default function AdminLayoutClient({
               size="sm"
               hiddenFrom="sm"
             />
-            <Text fw={600}>Welcome, {user.fullname}</Text>
+            <Text fw={600}>Selamat datang, {user.fullname}</Text>
           </Group>
         </Group>
       </AppShell.Header>
