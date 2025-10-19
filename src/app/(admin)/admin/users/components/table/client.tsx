@@ -61,5 +61,5 @@ const columns = [
 ] as DataTableColumn<Record<string, unknown>>[];
 
 export function UserTableClient({ users: records }: { users: ExtendedUser[] }) {
-  return <CustomTable records={records} columns={columns} />;
+  return <CustomTable records={records} columns={columns} placeholder="Cari data pengguna" />;
 }
