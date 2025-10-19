@@ -15,6 +15,40 @@ type UploadEachFileParams = {
   folderPath: string;
 };
 
+/**
+ * Upload file ke Supabase dengan mekanisme retry otomatis
+ * buat ngatasin error jaringan kayak "fetch failed"
+ */
+async function uploadWithRetry(
+  bucketName: string,
+  path: string,
+  file: File | Blob,
+  retries = 3,
+  delay = 1000
+): Promise<void> {
+  try {
+    const { error } = await supabase.storage
+      .from(bucketName)
+      .upload(path, file);
+    if (error) throw error;
+  } catch (err: unknown) {
+    const message = (err as Error)?.message?.toLowerCase?.() || "";
+
+    if (
+      retries > 0 &&
+      (message.includes("fetch") || message.includes("network"))
+    ) {
+      console.warn(
+        `⚠️ Upload failed ("${message}"), retrying... (${3 - retries + 1}/3)`
+      );
+      await new Promise((res) => setTimeout(res, delay));
+      return uploadWithRetry(bucketName, path, file, retries - 1, delay * 2);
+    }
+
+    throw err;
+  }
+}
+
 async function uploadEachFile({
   file,
   bucketName,
@@ -23,15 +57,10 @@ async function uploadEachFile({
   const fileName = `${Date.now()}-${
     file instanceof File ? file.name : "upload"
   }`;
-
   const fullPath = folderPath ? `${folderPath}/${fileName}` : fileName;
   const cleanFullPath = getCleanString(fullPath);
 
-  const { error: uploadError } = await supabase.storage
-    .from(bucketName)
-    .upload(cleanFullPath, file);
-
-  if (uploadError) throw uploadError;
+  await uploadWithRetry(bucketName, cleanFullPath, file);
 
   const { data: publicUrlData } = supabase.storage
     .from(bucketName)
