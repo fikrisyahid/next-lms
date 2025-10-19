@@ -30,8 +30,8 @@ export default function DeletePublisherModal({
   const handleDeletePublisher = async () => {
     if (nameConfirm !== name) {
       notifications.show({
-        title: "Error",
-        message: "Publisher name does not match",
+        title: "Gagal",
+        message: "Nama penerbit tidak cocok",
         color: "red",
       });
       return;
@@ -42,24 +42,18 @@ export default function DeletePublisherModal({
       const result = await deletePublisher(id);
 
       if (result.status === "error") {
-        notifications.show({
-          title: "Error",
-          message: result.message || "Failed to delete publisher",
-          color: "red",
-        });
-        setLoading(false);
-        return;
+        throw new Error();
       }
 
       notifications.show({
-        title: "Success",
-        message: result.message || "Publisher has been deleted successfully",
+        title: "Sukses",
+        message: "Penerbit berhasil dihapus",
         color: "green",
       });
     } catch {
       notifications.show({
-        title: "Error",
-        message: "Failed to delete publisher",
+        title: "Gagal",
+        message: "Gagal menghapus penerbit",
         color: "red",
       });
     }
@@ -75,24 +69,24 @@ export default function DeletePublisherModal({
       <Modal
         opened={open}
         onClose={() => setOpen(false)}
-        title="Delete Publisher"
+        title="Hapus Penerbit"
         centered
       >
         <Stack gap="sm">
           <Text size="sm">
-            This action is irreversible. Are you sure you want to delete this
-            publisher?
+            Tindakan ini tidak dapat dibatalkan. Apakah Anda yakin ingin
+            menghapus penerbit ini?
           </Text>
           <Text size="sm">
-            Type <b>{name}</b> for confirmation
+            Ketik <b>{name}</b> untuk konfirmasi
           </Text>
           <TextInput
-            placeholder="Input the publisher name"
+            placeholder="Masukkan nama penerbit"
             value={nameConfirm}
             onChange={(e) => setNameConfirm(e.target.value)}
           />
           <Button color="red" onClick={handleDeletePublisher} loading={loading}>
-            Delete
+            Hapus
           </Button>
         </Stack>
       </Modal>

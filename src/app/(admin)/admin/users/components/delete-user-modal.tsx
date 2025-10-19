@@ -24,23 +24,18 @@ export default function DeleteUserModal({
       const result = await deleteUser(id);
 
       if (result.status === "error") {
-        notifications.show({
-          title: "Error",
-          message: result.message || "Failed to delete user",
-          color: "red",
-        });
-        return;
+        throw new Error();
       }
 
       notifications.show({
-        title: "Success",
-        message: "User has been deleted successfully",
+        title: "Sukses",
+        message: "Pengguna berhasil dihapus",
         color: "green",
       });
     } catch {
       notifications.show({
-        title: "Error",
-        message: "Failed to delete user",
+        title: "Gagal",
+        message: "Gagal menghapus pengguna",
         color: "red",
       });
     }
@@ -49,13 +44,13 @@ export default function DeleteUserModal({
 
   const handleConfirmDelete = () => {
     modals.openConfirmModal({
-      title: "Are you sure?",
+      title: "Apakah kamu yakin?",
       centered: true,
       children: (
         <Stack gap="sm">
           <Text size="sm">
-            This action is irreversible. Are you sure you want to delete this
-            user?
+            Hal ini tidak dapat dibatalkan. Pengguna berikut akan dihapus secara
+            permanen:
           </Text>
           <Code block>
             {`username: ${username}
@@ -64,7 +59,7 @@ role: ${role}`}
           </Code>
         </Stack>
       ),
-      labels: { confirm: "Delete user", cancel: "Cancel" },
+      labels: { confirm: "Hapus pengguna", cancel: "Batal" },
       confirmProps: { color: "red" },
       onConfirm: () => handleDeleteUser(),
     });

@@ -1,6 +1,7 @@
 "use client";
 
 import { updateUser } from "@/app/api/users/update";
+import { BASE_COLOR } from "@/config/color";
 import {
   Button,
   PasswordInput,
@@ -50,15 +51,16 @@ export default function EditUserModal({
       role,
     },
     validate: {
-      fullname: (v) => (v.trim() ? null : "Full name is required"),
+      fullname: (v) => (v.trim() ? null : "Nama lengkap wajib diisi"),
       username: (v) =>
-        v.length >= 3 ? null : "Username must be at least 3 characters",
+        v.length >= 3 ? null : "Username harus terdiri dari minimal 3 karakter",
       password: (v) => {
         if (!changePassword) return null;
-        if (v.length < 6) return "Password must be at least 6 characters";
+        if (v.length < 6)
+          return "Password harus terdiri dari minimal 6 karakter";
         return null;
       },
-      role: (v) => (v ? null : "Role is required"),
+      role: (v) => (v ? null : "Hak akses wajib diisi"),
     },
   });
 
@@ -68,18 +70,12 @@ export default function EditUserModal({
       const result = await updateUser(values);
 
       if (result.status === "error") {
-        notifications.show({
-          title: "Error",
-          message: result.message,
-          color: "red",
-        });
-        setLoading(false);
-        return;
+        throw new Error();
       }
 
       notifications.show({
-        title: "Success",
-        message: `User ${result?.user?.username} (${result.user?.role}) has been updated successfully!`,
+        title: "Sukses",
+        message: `Pengguna ${result?.user?.username} (${result.user?.role}) berhasil diubah!`,
         color: "green",
       });
 
@@ -89,8 +85,8 @@ export default function EditUserModal({
       router.refresh();
     } catch (_) {
       notifications.show({
-        title: "Error",
-        message: "Failed to create user",
+        title: "Gagal",
+        message: "Gagal mengubah pengguna",
         color: "red",
       });
     }
@@ -99,16 +95,16 @@ export default function EditUserModal({
 
   const confirmSubmit = (values: UserValues) => {
     modals.openConfirmModal({
-      title: "Confirm user update",
+      title: "Konfirmasi perubaha data pengguna",
       centered: true,
       children: (
         <Text size="sm">
-          Are you sure you want to update <b>{values.username}</b> as{" "}
-          <b>{values.role}</b>?
+          Apakah kamu yakin ingin mengubah data pengguna{" "}
+          <b>{values.username}</b>?
         </Text>
       ),
-      labels: { confirm: "Yes, Update", cancel: "Cancel" },
-      confirmProps: { color: "blue", loading },
+      labels: { confirm: "Ya, Ubah", cancel: "Batal" },
+      confirmProps: { color: BASE_COLOR.primary, loading },
       onConfirm: () => handleSubmit(values),
     });
   };
@@ -129,13 +125,13 @@ export default function EditUserModal({
           setOpened(false);
           form.reset();
         }}
-        title="Update User"
+        title="Ubah data pengguna"
         centered
       >
         <form onSubmit={form.onSubmit((values) => confirmSubmit(values))}>
           <Stack gap="sm">
             <TextInput
-              label="Full name"
+              label="Nama lengkap"
               placeholder="Full name"
               required
               {...form.getInputProps("fullname")}
@@ -149,32 +145,37 @@ export default function EditUserModal({
             />
 
             <Checkbox
-              label="Change user password"
+              label="Ganti password pengguna"
               checked={changePassword}
               onChange={(e) => setChangePassword(e.currentTarget.checked)}
             />
 
             <PasswordInput
-              label="New Password"
-              placeholder="New Password"
-              required
+              label="Password baru"
+              placeholder="Password baru"
+              required={changePassword}
               disabled={!changePassword}
               {...form.getInputProps("password")}
             />
 
             <Select
-              label="Role"
-              placeholder="Select role"
+              label="Hak akses"
+              placeholder="Pilih hak akses"
               data={[
                 { value: "ADMIN", label: "Admin" },
-                { value: "TEACHER", label: "Teacher" },
-                { value: "STUDENT", label: "Student" },
+                { value: "TEACHER", label: "Guru" },
+                { value: "STUDENT", label: "Siswa" },
               ]}
               required
               {...form.getInputProps("role")}
             />
 
-            <Button type="submit" loading={loading} fullWidth>
+            <Button
+              type="submit"
+              loading={loading}
+              fullWidth
+              color={BASE_COLOR.primary}
+            >
               Update
             </Button>
           </Stack>

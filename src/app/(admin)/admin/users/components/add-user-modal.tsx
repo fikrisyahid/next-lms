@@ -1,6 +1,7 @@
 "use client";
 
 import { createUser } from "@/app/api/users";
+import { BASE_COLOR } from "@/config/color";
 import {
   Button,
   PasswordInput,
@@ -37,12 +38,12 @@ export default function AddUserModal() {
       role: "STUDENT",
     },
     validate: {
-      fullname: (v) => (v.trim() ? null : "Full name is required"),
+      fullname: (v) => (v.trim() ? null : "Nama lengkap wajib diisi"),
       username: (v) =>
-        v.length >= 3 ? null : "Username must be at least 3 characters",
+        v.length >= 3 ? null : "Username harus terdiri dari minimal 3 karakter",
       password: (v) =>
-        v.length >= 6 ? null : "Password must be at least 6 characters",
-      role: (v) => (v ? null : "Role is required"),
+        v.length >= 6 ? null : "Password harus terdiri dari minimal 6 karakter",
+      role: (v) => (v ? null : "Hak akses wajib diisi"),
     },
   });
 
@@ -52,18 +53,12 @@ export default function AddUserModal() {
       const result = await createUser(values);
 
       if (result.status === "error") {
-        notifications.show({
-          title: "Error",
-          message: result.message,
-          color: "red",
-        });
-        setLoading(false);
-        return;
+        throw new Error();
       }
 
       notifications.show({
-        title: "Success",
-        message: `User ${result?.user?.username} (${result.user?.role}) has been created successfully!`,
+        title: "Sukses",
+        message: `Pengguna ${result?.user?.username} (${result.user?.role}) berhasil ditambahkan!`,
         color: "green",
       });
 
@@ -73,8 +68,8 @@ export default function AddUserModal() {
       router.refresh();
     } catch (_) {
       notifications.show({
-        title: "Error",
-        message: "Failed to create user",
+        title: "Gagal",
+        message: "Gagal menambahkan pengguna",
         color: "red",
       });
     }
@@ -92,7 +87,7 @@ export default function AddUserModal() {
         </Text>
       ),
       labels: { confirm: "Ya, Tambah", cancel: "Batal" },
-      confirmProps: { color: "blue", loading },
+      confirmProps: { color: BASE_COLOR.primary, loading },
       onConfirm: () => handleSubmit(values),
     });
   };
@@ -102,6 +97,7 @@ export default function AddUserModal() {
       <Button
         onClick={() => setOpened(true)}
         leftSection={<IconPlus stroke={1.5} />}
+        color={BASE_COLOR.primary}
       >
         Tambah Pengguna
       </Button>
@@ -140,14 +136,19 @@ export default function AddUserModal() {
               placeholder="Select role"
               data={[
                 { value: "ADMIN", label: "Admin" },
-                { value: "TEACHER", label: "Teacher" },
-                { value: "STUDENT", label: "Student" },
+                { value: "TEACHER", label: "Guru" },
+                { value: "STUDENT", label: "Siswa" },
               ]}
               required
               {...form.getInputProps("role")}
             />
 
-            <Button type="submit" loading={loading} fullWidth>
+            <Button
+              type="submit"
+              loading={loading}
+              fullWidth
+              color={BASE_COLOR.primary}
+            >
               Tambah Pengguna
             </Button>
           </Stack>

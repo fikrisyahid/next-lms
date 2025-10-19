@@ -10,6 +10,7 @@ import { IconPlus } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
+import { BASE_COLOR } from "@/config/color";
 
 type FormValues = {
   name: string;
@@ -23,7 +24,7 @@ export default function AddPublisherModal() {
 
   const form = useForm<FormValues>({
     initialValues: { name: "" },
-    validate: { name: (v) => (v.trim() ? null : "Publisher name is required") },
+    validate: { name: (v) => (v.trim() ? null : "Nama penerbit wajib diisi") },
   });
 
   const handleSubmit = async (values: FormValues) => {
@@ -35,18 +36,12 @@ export default function AddPublisherModal() {
       });
 
       if (result.status === "error") {
-        notifications.show({
-          title: "Error",
-          message: result.message,
-          color: "red",
-        });
-        setLoading(false);
-        return;
+        throw new Error();
       }
 
       notifications.show({
-        title: "Success",
-        message: `Publisher ${result.publisher?.name} has been created successfully!`,
+        title: "Sukses",
+        message: `Penerbit ${result.publisher?.name} berhasil ditambahkan!`,
         color: "green",
       });
 
@@ -57,8 +52,8 @@ export default function AddPublisherModal() {
       router.refresh();
     } catch (_) {
       notifications.show({
-        title: "Error",
-        message: "Failed to create publisher",
+        title: "Gagal",
+        message: "Gagal menambahkan penerbit",
         color: "red",
       });
     }
@@ -76,7 +71,7 @@ export default function AddPublisherModal() {
         </Text>
       ),
       labels: { confirm: "Ya, Tambah", cancel: "Batal" },
-      confirmProps: { color: "blue", loading },
+      confirmProps: { color: BASE_COLOR.primary, loading },
       onConfirm: () => handleSubmit(values),
     });
   };
@@ -86,6 +81,7 @@ export default function AddPublisherModal() {
       <Button
         leftSection={<IconPlus stroke={1.5} />}
         onClick={() => setOpened(true)}
+        color={BASE_COLOR.primary}
       >
         Tambah Penerbit
       </Button>
@@ -128,7 +124,12 @@ export default function AddPublisherModal() {
               </div>
             )}
 
-            <Button type="submit" loading={loading} fullWidth>
+            <Button
+              type="submit"
+              loading={loading}
+              fullWidth
+              color={BASE_COLOR.primary}
+            >
               Tambah Penerbit
             </Button>
           </Stack>
