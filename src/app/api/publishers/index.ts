@@ -1,5 +1,3 @@
-import { createPublisher } from "./create";
-import { getPublisher, getAllPublishers } from "./read";
-import { deletePublisher } from "./delete";
-
-export { createPublisher, getPublisher, getAllPublishers, deletePublisher };
+export * from "./create";
+export * from "./delete";
+export * from "./read";

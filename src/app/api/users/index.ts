@@ -1,7 +1,4 @@
-"use server";
-
-import { getUser, getAllUsers } from "./read";
-import { createUser } from "./create";
-import { deleteUser } from "./delete";
-
-export { getUser, getAllUsers, createUser, deleteUser };
+export * from "./create";
+export * from "./delete";
+export * from "./read";
+export * from "./update";
