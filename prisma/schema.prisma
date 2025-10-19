@@ -22,6 +22,44 @@ enum Role {
   ADMIN
 }
 
+enum EducationLevel {
+  UMUM
+  PAUD
+  SD
+  SMP
+  SMA
+  SMK
+}
+
+enum ClassLevel {
+  NONCLASS
+  I
+  II
+  III
+  IV
+  V
+  VI
+  VII
+  VIII
+  IX
+  X
+  XI
+  XII
+}
+
+enum EbookType {
+  BSE
+  NONBSE
+}
+
+enum Curriculum {
+  NONCURRICULUM
+  KBK
+  KTSP
+  K13
+  MERDEKA
+}
+
 model User {
   id        String   @id @default(cuid())
   username  String   @unique
@@ -51,18 +89,35 @@ model Category {
 }
 
 model Ebook {
-  id          String     @id @default(cuid())
-  title       String
-  author      String
-  description String?
-  categoryId  String?
-  category    Category?  @relation(fields: [categoryId], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  thumbnail   String?
-  publishedAt DateTime   @default(now())
-  price       Float      @default(0.0)
-  users       User[]
-  publisher   Publisher? @relation(fields: [publisherId], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  publisherId String?
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  id             String         @id @default(cuid())
+  title          String
+  author         String
+  description    String?
+  ISBN           String         @unique
+  pageCount      Int?
+  readCount      Int            @default(0)
+  curriculum     Curriculum     @default(NONCURRICULUM)
+  classLevel     ClassLevel     @default(NONCLASS)
+  educationLevel EducationLevel @default(UMUM)
+  categoryId     String?
+  category       Category?      @relation(fields: [categoryId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  thumbnail      String?
+  publishedAt    DateTime       @default(now())
+  price          Float          @default(0.0)
+  users          User[]
+  type           EbookType      @default(NONBSE)
+  subjects       Subjects?      @relation(fields: [subjectsId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  subjectsId     String?
+  publisher      Publisher?     @relation(fields: [publisherId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  publisherId    String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+}
+
+model Subjects {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  ebooks    Ebook[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
