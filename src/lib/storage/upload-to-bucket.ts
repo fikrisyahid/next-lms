@@ -15,10 +15,6 @@ type UploadEachFileParams = {
   folderPath: string;
 };
 
-/**
- * Upload file ke Supabase dengan mekanisme retry otomatis
- * buat ngatasin error jaringan kayak "fetch failed"
- */
 async function uploadWithRetry(
   bucketName: string,
   path: string,
