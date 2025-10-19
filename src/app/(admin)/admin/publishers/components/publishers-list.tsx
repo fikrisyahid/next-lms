@@ -1,5 +1,3 @@
-"use client";
-
 import { Card, Image, SimpleGrid, Stack, Text } from "@mantine/core";
 import type { Publisher } from "@prisma/client";
 import { IconPhoto } from "@tabler/icons-react";
