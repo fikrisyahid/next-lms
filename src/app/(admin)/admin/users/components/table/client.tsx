@@ -6,6 +6,15 @@ import DeleteUserModal from "../delete-user-modal";
 import { CustomTable } from "@/components/custom-table";
 import type { DataTableColumn } from "mantine-datatable";
 import EditUserModal from "../edit-user-modal";
+import translateRole from "@/lib/utils/translate-role";
+
+const badgeColorBasedOnRole: {
+  [key in ExtendedUser["role"]]: string;
+} = {
+  ADMIN: "red",
+  STUDENT: "blue",
+  TEACHER: "green",
+};
 
 const columns = [
   {
@@ -23,18 +32,11 @@ const columns = [
     title: "Hak Akses",
     sortable: true,
     width: 120,
-    render: (record: ExtendedUser) => {
-      const badgeColorBasedOnRole: {
-        [key in ExtendedUser["role"]]: string;
-      } = {
-        ADMIN: "red",
-        STUDENT: "blue",
-        TEACHER: "green",
-      };
-      return (
-        <Badge color={badgeColorBasedOnRole[record.role]}>{record.role}</Badge>
-      );
-    },
+    render: (record: ExtendedUser) => (
+      <Badge color={badgeColorBasedOnRole[record.role]}>
+        {translateRole({ role: record.role })}
+      </Badge>
+    ),
   },
   {
     accessor: "actions",
@@ -61,5 +63,11 @@ const columns = [
 ] as DataTableColumn<Record<string, unknown>>[];
 
 export function UserTableClient({ users: records }: { users: ExtendedUser[] }) {
-  return <CustomTable records={records} columns={columns} placeholder="Cari data pengguna" />;
+  return (
+    <CustomTable
+      records={records}
+      columns={columns}
+      placeholder="Cari data pengguna"
+    />
+  );
 }
