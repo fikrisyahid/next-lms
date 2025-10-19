@@ -12,15 +12,19 @@ import { useEffect, useMemo, useState } from "react";
 
 const PAGE_SIZES = [10, 15, 20];
 
+type CustomTableProps = {
+  records: object[];
+  columns: DataTableColumn<Record<string, unknown>>[];
+  noRecordsText?: string;
+  placeholder?: string;
+};
+
 export function CustomTable({
   records,
   columns,
   noRecordsText = "No records found",
-}: {
-  records: object[];
-  columns: DataTableColumn<Record<string, unknown>>[];
-  noRecordsText?: string;
-}) {
+  placeholder = "Search data records",
+}: CustomTableProps) {
   const [search, setSearch] = useState("");
   const [debouncedSearch] = useDebouncedValue(search, 200);
 
@@ -83,7 +87,7 @@ export function CustomTable({
     <div className="flex flex-col gap-4 w-full">
       <TextInput
         className="w-full"
-        placeholder="Search user data"
+        placeholder={placeholder}
         value={search}
         onChange={(e) => setSearch(e.currentTarget.value)}
       />
