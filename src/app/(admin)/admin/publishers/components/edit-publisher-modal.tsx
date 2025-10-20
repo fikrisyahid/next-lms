@@ -133,7 +133,7 @@ export default function EditPublisherModal({
         <form onSubmit={form.onSubmit(confirmSubmit)}>
           <Stack gap="sm">
             <TextInput
-              label="Name"
+              label="Nama penerbit"
               placeholder="Nama penerbit"
               required
               {...form.getInputProps("name")}
