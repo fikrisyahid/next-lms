@@ -107,7 +107,11 @@ export default function AddPublisherModal() {
 
       <Modal
         opened={opened}
-        onClose={() => setOpened(false)}
+        onClose={() => {
+          setOpened(false);
+          form.reset();
+          setLogo(undefined);
+        }}
         title="Tambah Penerbit Baru"
         centered
       >

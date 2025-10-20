@@ -74,7 +74,10 @@ export default function DeletePublisherModal({
       </ActionIcon>
       <Modal
         opened={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          setNameConfirm("");
+        }}
         title="Hapus Penerbit"
         centered
       >

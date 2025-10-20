@@ -110,7 +110,10 @@ export default function AddUserModal() {
 
       <Modal
         opened={opened}
-        onClose={() => setOpened(false)}
+        onClose={() => {
+          setOpened(false);
+          form.reset();
+        }}
         title="Tambah Pengguna Baru"
         centered
       >

@@ -121,7 +121,12 @@ export default function EditPublisherModal({
 
       <Modal
         opened={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          form.reset();
+          setLogo(undefined);
+          setChangeLogo(false);
+        }}
         title="Ubah data penerbit"
         centered
       >
@@ -157,7 +162,7 @@ export default function EditPublisherModal({
               </Dropzone>
             )}
 
-            {logo && (
+            {logo && changeLogo && (
               <div className="flex flex-col items-center">
                 <Image
                   src={URL.createObjectURL(logo)}
