@@ -6,6 +6,7 @@ import type { DataTableColumn } from "mantine-datatable";
 import DeletePublisherModal from "../delete-publisher-modal";
 import Image from "next/image";
 import { IconPhoto } from "@tabler/icons-react";
+import EditPublisherModal from "../edit-publisher-modal";
 
 const columns = [
   {
@@ -18,33 +19,45 @@ const columns = [
   {
     accessor: "logoUrl",
     title: "Logo",
+    textAlign: "center",
     render: (record: ExtendedPublisher) => {
       if (record.logoUrl) {
         return (
-          <Image
-            src={record.logoUrl}
-            alt={record.name}
-            width={70}
-            height={70}
-            className="object-contain rounded"
-            unoptimized
-          />
+          <div className="flex justify-center">
+            <Image
+              src={record.logoUrl}
+              alt={record.name}
+              width={70}
+              height={70}
+              className="object-contain rounded"
+              unoptimized
+            />
+          </div>
         );
       } else {
-        return <IconPhoto className="w-10 h-10 text-gray-400" />;
+        return (
+          <div className="flex justify-center">
+            <IconPhoto className="w-15 h-15 text-gray-400" />
+          </div>
+        );
       }
     },
   },
-  { accessor: "name", title: "Nama", sortable: true },
-  { accessor: "ebooks_count", title: "Jumlah E-Books", sortable: true },
+  { accessor: "name", title: "Nama", sortable: true, textAlign: "center" },
+  {
+    accessor: "ebooks_count",
+    title: "Jumlah E-Books",
+    sortable: true,
+    textAlign: "center",
+  },
   {
     accessor: "actions",
     title: "Aksi",
-    textAlign: "right",
+    textAlign: "center",
     width: 100,
     render: (record: ExtendedPublisher) => (
-      <div className="flex flex-row justify-end gap-2">
-        {/* Edit publisher modal */}
+      <div className="flex flex-row justify-center gap-2">
+        <EditPublisherModal id={record.id} name={record.name} />
         <DeletePublisherModal id={record.id} name={record.name} />
       </div>
     ),

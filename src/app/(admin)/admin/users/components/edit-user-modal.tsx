@@ -176,7 +176,7 @@ export default function EditUserModal({
               fullWidth
               color={BASE_COLOR.primary}
             >
-              Update
+              Ubah
             </Button>
           </Stack>
         </form>
