@@ -6,7 +6,7 @@ async function deleteUser(id: string) {
   if (!id) {
     return {
       status: "error",
-      message: "User ID is required",
+      message: "ID pengguna wajib diisi",
     };
   }
   try {
@@ -15,12 +15,12 @@ async function deleteUser(id: string) {
     });
     return {
       status: "success",
-      message: "User deleted successfully",
+      message: "Sukses menghapus data pengguna",
     };
   } catch {
     return {
       status: "error",
-      message: "Failed to delete user",
+      message: "Gagal menghapus data pengguna",
     };
   }
 }

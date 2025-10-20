@@ -17,7 +17,7 @@ async function createUser({
   if (!fullname || !username || !password || !role) {
     return {
       status: "error",
-      message: "All fields are required",
+      message: "Masih ada field yang kosong",
     };
   }
 
@@ -29,7 +29,7 @@ async function createUser({
     if (userExists) {
       return {
         status: "error",
-        message: "Username already exists",
+        message: "Username sudah digunakan",
       };
     }
 
@@ -46,12 +46,12 @@ async function createUser({
     return {
       status: "success",
       user: newUser,
-      message: "User created successfully",
+      message: "Sukses membuat pengguna",
     };
   } catch {
     return {
       status: "error",
-      message: "Failed to create user",
+      message: "Gagal membuat pengguna",
     };
   }
 }

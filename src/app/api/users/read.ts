@@ -6,7 +6,7 @@ async function getUser(id: string) {
   if (!id)
     return {
       status: "error",
-      message: "User ID is required",
+      message: "ID pengguna wajib diisi",
     };
 
   try {
@@ -17,12 +17,11 @@ async function getUser(id: string) {
     return {
       status: "success",
       user,
-      message: "User fetched successfully",
     };
   } catch {
     return {
       status: "error",
-      message: "Failed to fetch user",
+      message: "Gagal mengambil data pengguna",
     };
   }
 }
@@ -52,12 +51,12 @@ async function getAllUsers(options?: GetAllUsersOptions) {
     return {
       status: "success",
       users: formattedUsers,
-      message: "Users fetched successfully",
+      message: "Sukses mengambil daftar pengguna",
     };
   } catch {
     return {
       status: "error",
-      message: "Failed to fetch users",
+      message: "Gagal mengambil daftar pengguna",
     };
   }
 }

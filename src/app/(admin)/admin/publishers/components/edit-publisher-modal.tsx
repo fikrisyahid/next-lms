@@ -54,7 +54,13 @@ export default function EditPublisherModal({
       });
 
       if (result.status === "error") {
-        throw new Error();
+        notifications.show({
+          title: "Gagal",
+          message: result.message || "Gagal mengubah penerbit",
+          color: "red",
+        });
+        setLoading(false);
+        return;
       }
 
       notifications.show({

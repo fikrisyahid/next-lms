@@ -8,7 +8,7 @@ async function deletePublisher(id: string) {
   if (!id) {
     return {
       status: "error",
-      message: "Publisher ID is required",
+      message: "ID penerbit wajib diisi",
     };
   }
 
@@ -32,7 +32,7 @@ async function deletePublisher(id: string) {
       if (logoDeletedStatus === "error") {
         return {
           status: "error",
-          message: "Failed to delete publisher logo from storage",
+          message: "Gagal menghapus logo penerbit dari penyimpanan",
         };
       }
     }
@@ -43,12 +43,12 @@ async function deletePublisher(id: string) {
 
     return {
       status: "success",
-      message: "Publisher has been deleted successfully",
+      message: "Sukses menghapus penerbit",
     };
   } catch {
     return {
       status: "error",
-      message: "Failed to delete publisher",
+      message: "Gagal menghapus penerbit",
     };
   }
 }

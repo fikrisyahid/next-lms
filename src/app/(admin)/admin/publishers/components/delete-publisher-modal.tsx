@@ -42,12 +42,18 @@ export default function DeletePublisherModal({
       const result = await deletePublisher(id);
 
       if (result.status === "error") {
-        throw new Error();
+        notifications.show({
+          title: "Gagal",
+          message: result.message || "Gagal menghapus penerbit",
+          color: "red",
+        });
+        setLoading(false);
+        return;
       }
 
       notifications.show({
         title: "Sukses",
-        message: "Penerbit berhasil dihapus",
+        message: `Penerbit ${name} berhasil dihapus`,
         color: "green",
       });
     } catch {

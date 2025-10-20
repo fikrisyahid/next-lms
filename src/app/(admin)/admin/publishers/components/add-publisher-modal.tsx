@@ -36,7 +36,13 @@ export default function AddPublisherModal() {
       });
 
       if (result.status === "error") {
-        throw new Error();
+        notifications.show({
+          title: "Gagal",
+          message: result.message || "Gagal menambahkan penerbit",
+          color: "red",
+        });
+        setLoading(false);
+        return;
       }
 
       notifications.show({

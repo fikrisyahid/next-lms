@@ -11,8 +11,6 @@ export default async function RegisterPage(props: {
   const searchParams = await props.searchParams;
   const key = searchParams.key;
 
-  console.log("RegisterPage key:", key);
-
   if (key !== SECRET_KEY) {
     redirect("/");
   }

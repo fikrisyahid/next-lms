@@ -24,12 +24,17 @@ export default function DeleteUserModal({
       const result = await deleteUser(id);
 
       if (result.status === "error") {
-        throw new Error();
+        notifications.show({
+          title: "Gagal",
+          message: result.message || "Gagal menghapus pengguna",
+          color: "red",
+        });
+        return;
       }
 
       notifications.show({
         title: "Sukses",
-        message: "Pengguna berhasil dihapus",
+        message: `Pengguna ${username} berhasil dihapus`,
         color: "green",
       });
     } catch {

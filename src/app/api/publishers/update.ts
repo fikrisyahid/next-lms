@@ -28,7 +28,10 @@ async function generateLogoUrl(file?: File) {
 
 async function updatePublisher({ id, name, logo }: Params) {
   if (!id || !name) {
-    return { status: "error", message: "Publisher id or name is required" };
+    return {
+      status: "error",
+      message: "ID dan nama penerbit wajib diisi",
+    };
   }
 
   try {
@@ -39,7 +42,7 @@ async function updatePublisher({ id, name, logo }: Params) {
     if (existingPublisher?.name === name && existingPublisher.id !== id) {
       return {
         status: "error",
-        message: "Publisher with that name already exists",
+        message: "Penerbit dengan nama tersebut sudah ada",
       };
     }
 
@@ -58,7 +61,7 @@ async function updatePublisher({ id, name, logo }: Params) {
       if (logoDeletedStatus === "error") {
         return {
           status: "error",
-          message: "Failed to delete publisher logo from storage",
+          message: "Gagal menghapus logo penerbit dari penyimpanan",
         };
       }
     }
@@ -67,17 +70,22 @@ async function updatePublisher({ id, name, logo }: Params) {
 
     const newPublisher = await prisma.publisher.update({
       where: { id },
-      data: { name, ...(logoUrl && { logoUrl }) },
+      data: {
+        name,
+        ...(logoUrl && { logoUrl }),
+      },
     });
 
     return {
       status: "success",
       publisher: newPublisher,
-      message: "Publisher created successfully",
+      message: "Sukses memperbarui penerbit",
     };
-  } catch (err) {
-    console.error("updatePublisher error:", err);
-    return { status: "error", message: "Failed to create publisher" };
+  } catch {
+    return {
+      status: "error",
+      message: "Gagal memperbarui penerbit",
+    };
   }
 }
 

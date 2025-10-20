@@ -70,7 +70,13 @@ export default function EditUserModal({
       const result = await updateUser(values);
 
       if (result.status === "error") {
-        throw new Error();
+        notifications.show({
+          title: "Gagal",
+          message: result.message || "Gagal mengubah pengguna",
+          color: "red",
+        });
+        setLoading(false);
+        return;
       }
 
       notifications.show({

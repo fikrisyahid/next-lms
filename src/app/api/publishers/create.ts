@@ -25,7 +25,10 @@ async function generateLogoUrl(file?: File) {
 
 async function createPublisher({ name, logo }: Params) {
   if (!name) {
-    return { status: "error", message: "Publisher name is required" };
+    return {
+      status: "error",
+      message: "Nama penerbit wajib diisi",
+    };
   }
 
   try {
@@ -36,7 +39,7 @@ async function createPublisher({ name, logo }: Params) {
     if (existingPublisher) {
       return {
         status: "error",
-        message: "Publisher with that name already exists",
+        message: "Penerbit dengan nama tersebut sudah ada",
       };
     }
 
@@ -49,11 +52,13 @@ async function createPublisher({ name, logo }: Params) {
     return {
       status: "success",
       publisher: newPublisher,
-      message: "Publisher created successfully",
+      message: "Sukses menambahkan penerbit baru",
     };
-  } catch (err) {
-    console.error("createPublisher error:", err);
-    return { status: "error", message: "Failed to create publisher" };
+  } catch {
+    return {
+      status: "error",
+      message: "Gagal menambahkan penerbit baru",
+    };
   }
 }
 

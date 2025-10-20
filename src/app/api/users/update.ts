@@ -19,7 +19,7 @@ async function updateUser({
   if (!userId || !fullname || !username || !role) {
     return {
       status: "error",
-      message: "All fields are required",
+      message: "Masih ada field yang kosong",
     };
   }
 
@@ -31,7 +31,7 @@ async function updateUser({
     if (userExists && userExists.id !== userId) {
       return {
         status: "error",
-        message: "Username already exists",
+        message: "Username sudah digunakan",
       };
     }
 
@@ -50,12 +50,12 @@ async function updateUser({
     return {
       status: "success",
       user: updatedUser,
-      message: "User updated successfully",
+      message: "Sukses memperbarui pengguna",
     };
   } catch {
     return {
       status: "error",
-      message: "Failed to update user",
+      message: "Gagal memperbarui pengguna",
     };
   }
 }

@@ -29,13 +29,13 @@ async function getAllPublishers(options?: GetAllPublishersOptions) {
     return {
       status: "success",
       data: formattedPublishers,
-      message: "Publishers fetched successfully",
+      message: "Sukses mengambil daftar penerbit",
     };
   } catch {
     return {
       status: "error",
       data: null,
-      message: "Failed to fetch publishers",
+      message: "Gagal mengambil daftar penerbit",
     };
   }
 }
@@ -49,19 +49,19 @@ async function getPublisher({ id }: { id: string }) {
     if (!publisher) {
       return {
         status: "error",
-        message: "Publisher not found",
+        message: "Penerbit tidak ditemukan",
       };
     }
 
     return {
       status: "success",
       data: publisher,
-      message: "Publisher fetched successfully",
+      message: "Sukses mengambil data penerbit",
     };
   } catch {
     return {
       status: "error",
-      message: "Failed to fetch publisher",
+      message: "Gagal mengambil data penerbit",
     };
   }
 }

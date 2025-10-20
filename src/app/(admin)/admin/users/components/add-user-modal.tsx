@@ -53,7 +53,13 @@ export default function AddUserModal() {
       const result = await createUser(values);
 
       if (result.status === "error") {
-        throw new Error();
+        notifications.show({
+          title: "Gagal",
+          message: result.message || "Gagal menambahkan pengguna",
+          color: "red",
+        });
+        setLoading(false);
+        return;
       }
 
       notifications.show({
