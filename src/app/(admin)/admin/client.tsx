@@ -26,11 +26,7 @@ const sidebarContents = [
     subItems: [
       { label: "Daftar", href: "/admin/ebooks/" },
       { label: "Kategori", href: "/admin/ebooks/categories" },
-      { label: "Kurikulum", href: "#" },
-      { label: "Jenjang Sekolah", href: "#" },
-      { label: "Kelas", href: "#" },
-      { label: "Mata Pelajaran", href: "#" },
-      { label: "Jenis E-Books", href: "#" },
+      { label: "Mata Pelajaran", href: "/admin/ebooks/subjects" },
     ],
   },
   {
