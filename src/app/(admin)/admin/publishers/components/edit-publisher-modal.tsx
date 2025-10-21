@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
 import { BASE_COLOR } from "@/config/color";
-import { updatePublisher } from "@/app/api/publishers/update";
+import { updatePublisher } from "@/app/api/publishers";
 
 type EditPublisherModalProps = {
   id: string;
