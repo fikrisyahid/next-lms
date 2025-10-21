@@ -27,7 +27,7 @@ async function updateCategory({
     if (existingCategory && existingCategory.id !== id) {
       return {
         status: "error",
-        message: "Kategori dengan nama dan tipe media tersebut sudah ada",
+        message: "Kategori dengan nama tersebut sudah ada",
       };
     }
 

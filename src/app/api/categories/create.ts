@@ -13,7 +13,7 @@ async function createCategory({
   if (!name || !type) {
     return {
       status: "error",
-      message: "Nama kategori dan tipe media wajib diisi",
+      message: "Nama kategori wajib diisi",
     };
   }
 
@@ -25,7 +25,7 @@ async function createCategory({
     if (existingCategory) {
       return {
         status: "error",
-        message: "Kategori dengan nama dan tipe media tersebut sudah ada",
+        message: "Kategori dengan nama tersebut sudah ada",
       };
     }
 

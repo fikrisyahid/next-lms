@@ -1,4 +1,4 @@
-import type { Publisher, User } from "@prisma/client";
+import type { Category, Publisher, User } from "@prisma/client";
 
 /**
  * Global types stored here
@@ -12,4 +12,8 @@ type ExtendedPublisher = Publisher & {
   ebooks_count: number;
 };
 
-export type { ExtendedUser, ExtendedPublisher };
+type ExtendedCategory = Category & {
+  ebooks_count: number;
+};
+
+export type { ExtendedUser, ExtendedPublisher, ExtendedCategory };
