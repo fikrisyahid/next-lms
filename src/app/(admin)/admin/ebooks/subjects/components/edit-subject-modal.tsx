@@ -1,41 +1,58 @@
 "use client";
 
-import { createCategory } from "@/app/api/categories";
+import { updateSubject } from "@/app/api/subjects";
 import { BASE_COLOR } from "@/config/color";
-import { Button, Modal, Stack, Text, TextInput } from "@mantine/core";
+import {
+  ActionIcon,
+  Button,
+  Modal,
+  Stack,
+  Text,
+  TextInput,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
-import { IconPlus } from "@tabler/icons-react";
+import { IconPencil } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
+type EditSubjectModalProps = {
+  id: string;
+  name: string;
+};
 
 type FormValues = {
   name: string;
 };
 
-export default function EbookAddCategoryModal() {
+export default function EditSubjectModal({
+  id,
+  name,
+}: EditSubjectModalProps) {
   const router = useRouter();
-  const [opened, setOpened] = useState(false);
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const form = useForm<FormValues>({
-    initialValues: { name: "" },
-    validate: { name: (v) => (v.trim() ? null : "Nama kategori wajib diisi") },
+    initialValues: { name },
+    validate: {
+      name: (v) => (v.trim() ? null : "Nama mata pelajaran wajib diisi"),
+    },
   });
 
   const handleSubmit = async (values: FormValues) => {
     setLoading(true);
     try {
-      const result = await createCategory({
+      const result = await updateSubject({
+        id,
         name: values.name,
-        type: "EBOOK",
       });
 
       if (result.status === "error") {
         notifications.show({
           title: "Gagal",
-          message: result.message || "Gagal menambahkan kategori",
+          message: result.message || "Gagal mengubah mata pelajaran",
           color: "red",
         });
         setLoading(false);
@@ -44,18 +61,18 @@ export default function EbookAddCategoryModal() {
 
       notifications.show({
         title: "Sukses",
-        message: `Kategori ${result.category?.name} berhasil ditambahkan!`,
+        message: `Mata pelajaran ${result.subject?.name} berhasil diubah`,
         color: "green",
       });
 
       form.reset();
-      setOpened(false);
+      setOpen(false);
       modals.closeAll();
       router.refresh();
     } catch (_) {
       notifications.show({
         title: "Gagal",
-        message: "Gagal menambahkan kategori",
+        message: "Gagal mengubah mata pelajaran",
         color: "red",
       });
     }
@@ -64,15 +81,15 @@ export default function EbookAddCategoryModal() {
 
   const confirmSubmit = (values: FormValues) => {
     modals.openConfirmModal({
-      title: "Konfirmasi Penambahan Kategori",
+      title: "Konfirmasi perubahan mata pelajaran",
       centered: true,
       children: (
         <Text size="sm">
-          Apakah kamu yakin ingin menambahkan kategori dengan nama{" "}
+          Apakah kamu yakin ingin mengubah mata pelajaran dengan nama{" "}
           <b>{values.name}</b>?
         </Text>
       ),
-      labels: { confirm: "Ya, Tambah", cancel: "Batal" },
+      labels: { confirm: "Ya, Ubah", cancel: "Batal" },
       confirmProps: { color: BASE_COLOR.primary, loading },
       onConfirm: () => handleSubmit(values),
     });
@@ -80,28 +97,24 @@ export default function EbookAddCategoryModal() {
 
   return (
     <>
-      <Button
-        leftSection={<IconPlus stroke={1.5} />}
-        onClick={() => setOpened(true)}
-        color={BASE_COLOR.primary}
-      >
-        Tambah Kategori
-      </Button>
+      <ActionIcon variant="filled" color="yellow" onClick={() => setOpen(true)}>
+        <IconPencil style={{ width: "70%", height: "70%" }} stroke={1.5} />
+      </ActionIcon>
 
       <Modal
-        opened={opened}
+        opened={open}
         onClose={() => {
-          setOpened(false);
+          setOpen(false);
           form.reset();
         }}
-        title="Tambah Kategori Baru"
+        title="Ubah data mata pelajaran"
         centered
       >
         <form onSubmit={form.onSubmit(confirmSubmit)}>
           <Stack gap="sm">
             <TextInput
-              label="Nama"
-              placeholder="Nama Kategori"
+              label="Nama mata pelajaran"
+              placeholder="Nama mata pelajaran"
               required
               {...form.getInputProps("name")}
             />
@@ -111,7 +124,7 @@ export default function EbookAddCategoryModal() {
               fullWidth
               color={BASE_COLOR.primary}
             >
-              Tambah Kategori
+              Ubah
             </Button>
           </Stack>
         </form>

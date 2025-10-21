@@ -1,44 +1,38 @@
 "use client";
 
-import { createPublisher } from "@/app/api/publishers";
-import { Button, Stack, Text, TextInput, Modal } from "@mantine/core";
+import { createSubject } from "@/app/api/subjects";
+import { BASE_COLOR } from "@/config/color";
+import { Button, Modal, Stack, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
-import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { IconPlus } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Image from "next/image";
-import { BASE_COLOR } from "@/config/color";
 
 type FormValues = {
   name: string;
 };
 
-export default function AddPublisherModal() {
+export default function AddSubjectModal() {
   const router = useRouter();
   const [opened, setOpened] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [logo, setLogo] = useState<File>();
 
   const form = useForm<FormValues>({
     initialValues: { name: "" },
-    validate: { name: (v) => (v.trim() ? null : "Nama penerbit wajib diisi") },
+    validate: { name: (v) => (v.trim() ? null : "Nama mata pelajaran wajib diisi") },
   });
 
   const handleSubmit = async (values: FormValues) => {
     setLoading(true);
     try {
-      const result = await createPublisher({
-        name: values.name,
-        logo,
-      });
+      const result = await createSubject({ name: values.name });
 
       if (result.status === "error") {
         notifications.show({
           title: "Gagal",
-          message: result.message || "Gagal menambahkan penerbit",
+          message: result.message || "Gagal menambahkan mata pelajaran",
           color: "red",
         });
         setLoading(false);
@@ -47,45 +41,31 @@ export default function AddPublisherModal() {
 
       notifications.show({
         title: "Sukses",
-        message: `Penerbit ${result.publisher?.name} berhasil ditambahkan!`,
+        message: `Mata pelajaran ${result.subject?.name} berhasil ditambahkan!`,
         color: "green",
       });
 
       form.reset();
-      setLogo(undefined);
       setOpened(false);
       modals.closeAll();
       router.refresh();
     } catch (_) {
       notifications.show({
         title: "Gagal",
-        message: "Gagal menambahkan penerbit",
+        message: "Gagal menambahkan mata pelajaran",
         color: "red",
       });
     }
     setLoading(false);
   };
 
-  const handleFileSizeCheck = (file: File) => {
-    const maxSizeInBytes = 1 * 1024 * 1024;
-    if (file.size > maxSizeInBytes) {
-      notifications.show({
-        title: "Ukuran file terlalu besar",
-        message: "Ukuran file logo tidak boleh lebih dari 1MB",
-        color: "red",
-      });
-      return false;
-    }
-    return true;
-  };
-
   const confirmSubmit = (values: FormValues) => {
     modals.openConfirmModal({
-      title: "Konfirmasi Penambahan Penerbit",
+      title: "Konfirmasi Penambahan Mata pelajaran",
       centered: true,
       children: (
         <Text size="sm">
-          Apakah kamu yakin ingin menambahkan penerbit dengan nama{" "}
+          Apakah kamu yakin ingin menambahkan mata pelajaran dengan nama{" "}
           <b>{values.name}</b>?
         </Text>
       ),
@@ -102,7 +82,7 @@ export default function AddPublisherModal() {
         onClick={() => setOpened(true)}
         color={BASE_COLOR.primary}
       >
-        Tambah Penerbit
+        Tambah Mata pelajaran
       </Button>
 
       <Modal
@@ -110,54 +90,25 @@ export default function AddPublisherModal() {
         onClose={() => {
           setOpened(false);
           form.reset();
-          setLogo(undefined);
         }}
-        title="Tambah Penerbit Baru"
+        title="Tambah Mata pelajaran Baru"
         centered
       >
         <form onSubmit={form.onSubmit(confirmSubmit)}>
           <Stack gap="sm">
             <TextInput
               label="Nama"
-              placeholder="Nama Penerbit"
+              placeholder="Nama Mata pelajaran"
               required
               {...form.getInputProps("name")}
             />
-
-            <Text fw={500}>Logo Penerbit (opsional)</Text>
-            <Dropzone
-              onDrop={(files) => {
-                const fileSizeValid = handleFileSizeCheck(files[0]);
-                if (fileSizeValid) {
-                  setLogo(files[0]);
-                }
-              }}
-              accept={IMAGE_MIME_TYPE}
-              multiple={false}
-            >
-              <Text ta="center">
-                Drop atau klik untuk mengunggah logo (maks 1MB)
-              </Text>
-            </Dropzone>
-
-            {logo && (
-              <div className="flex flex-col items-center">
-                <Image
-                  src={URL.createObjectURL(logo)}
-                  alt="Preview"
-                  width={300}
-                  height={300}
-                />
-              </div>
-            )}
-
             <Button
               type="submit"
               loading={loading}
               fullWidth
               color={BASE_COLOR.primary}
             >
-              Tambah Penerbit
+              Tambah Mata pelajaran
             </Button>
           </Stack>
         </form>
