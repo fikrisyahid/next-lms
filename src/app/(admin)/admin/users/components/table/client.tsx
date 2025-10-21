@@ -68,6 +68,7 @@ export function UserTableClient({ users: records }: { users: ExtendedUser[] }) {
       records={records}
       columns={columns}
       placeholder="Cari data pengguna"
+      noRecordsText="Tidak ada data pengguna yang ditemukan"
     />
   );
 }

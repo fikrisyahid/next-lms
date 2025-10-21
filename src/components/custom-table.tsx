@@ -107,6 +107,7 @@ export function CustomTable({
         onRecordsPerPageChange={setPageSize}
         columns={columns}
         minHeight={200}
+        noRecordsText={noRecordsText}
       />
     </div>
   );

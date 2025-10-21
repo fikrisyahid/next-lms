@@ -74,6 +74,7 @@ export function PublisherTableClient({
       records={records}
       columns={columns}
       placeholder="Cari data penerbit"
+      noRecordsText="Tidak ada data penerbit yang ditemukan"
     />
   );
 }
