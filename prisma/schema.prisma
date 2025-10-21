@@ -60,6 +60,12 @@ enum Curriculum {
   MERDEKA
 }
 
+enum MediaType {
+  EBOOK
+  VIDEO
+  AUDIO
+}
+
 model User {
   id        String   @id @default(cuid())
   username  String   @unique
@@ -81,11 +87,12 @@ model Publisher {
 }
 
 model Category {
-  id        String   @id @default(cuid())
-  name      String   @unique
+  id        String    @id @default(cuid())
+  name      String    @unique
+  type      MediaType @default(EBOOK)
   ebooks    Ebook[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Ebook {
