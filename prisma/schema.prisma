@@ -101,7 +101,7 @@ model Ebook {
   author         String
   description    String?
   ISBN           String         @unique
-  pageCount      Int?
+  pageCount      Int            @default(0)
   readCount      Int            @default(0)
   curriculum     Curriculum     @default(NONCURRICULUM)
   classLevel     ClassLevel     @default(NONCLASS)
