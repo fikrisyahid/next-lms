@@ -117,6 +117,7 @@ model Ebook {
   subjectsId     String?
   publisher      Publisher?     @relation(fields: [publisherId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   publisherId    String?
+  fileUrl        String
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
 }
