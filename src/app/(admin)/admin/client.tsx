@@ -24,7 +24,7 @@ const sidebarContents = [
     label: "E-Books",
     icon: IconBooks,
     subItems: [
-      { label: "Daftar", href: "/admin/ebooks/" },
+      { label: "Daftar", href: "/admin/ebooks" },
       { label: "Kategori", href: "/admin/ebooks/categories" },
       { label: "Mata Pelajaran", href: "/admin/ebooks/subjects" },
     ],
