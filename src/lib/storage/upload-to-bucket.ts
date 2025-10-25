@@ -1,5 +1,3 @@
-"use server";
-
 import { supabase } from "../supabase";
 import getCleanString from "../utils/clean-string";
 
