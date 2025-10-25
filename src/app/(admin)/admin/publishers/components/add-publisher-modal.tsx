@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
 import { BASE_COLOR } from "@/config/color";
+import getFilesURL from "@/lib/storage/get-files-url";
 
 type FormValues = {
   name: string;
@@ -30,9 +31,15 @@ export default function AddPublisherModal() {
   const handleSubmit = async (values: FormValues) => {
     setLoading(true);
     try {
+      const { data: logoUrls } = await getFilesURL({
+        files: logo,
+      });
+
+      const logoUrl = logoUrls ? logoUrls[0].publicUrl : undefined;
+
       const result = await createPublisher({
         name: values.name,
-        logo,
+        logoUrl,
       });
 
       if (result.status === "error") {
@@ -67,11 +74,11 @@ export default function AddPublisherModal() {
   };
 
   const handleFileSizeCheck = (file: File) => {
-    const maxSizeInBytes = 1 * 1024 * 1024;
+    const maxSizeInBytes = 2 * 1024 * 1024;
     if (file.size > maxSizeInBytes) {
       notifications.show({
         title: "Ukuran file terlalu besar",
-        message: "Ukuran file logo tidak boleh lebih dari 1MB",
+        message: "Ukuran file logo tidak boleh lebih dari 2MB",
         color: "red",
       });
       return false;
