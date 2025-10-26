@@ -35,7 +35,7 @@ export default function AddPublisherModal() {
         files: logo,
       });
 
-      const logoUrl = logoUrls ? logoUrls[0].publicUrl : undefined;
+      const logoUrl = logoUrls ? logoUrls[0] : undefined;
 
       const result = await createPublisher({
         name: values.name,

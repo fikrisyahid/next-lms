@@ -5,11 +5,12 @@ export default async function getFilesURL({
 }: {
   files?: File | Blob | (File | Blob)[];
 }) {
-  if (!files) return {
-    status: "error",
-    message: "Gagal mendapatkan URL dari file, tidak ada file",
-    data: null,
-  };
+  if (!files)
+    return {
+      status: "error",
+      message: "Gagal mendapatkan URL dari file, tidak ada file",
+      data: null,
+    };
 
   const fileArray = Array.isArray(files) ? files : [files];
 
@@ -27,10 +28,12 @@ export default async function getFilesURL({
       };
     }
 
+    const formattedResults = results?.map((result) => result.publicUrl);
+
     return {
       status: "success",
       message: "Sukses mendapatkan URL dari file",
-      data: results,
+      data: formattedResults,
     };
   } catch {
     return {
