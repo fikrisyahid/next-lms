@@ -35,16 +35,14 @@ async function updateUser({
       };
     }
 
-    const dynamicData = {
-      fullname,
-      username,
-      role,
-      ...(password && { password: await bcrypt.hash(password, 10) }),
-    };
-
     const updatedUser = await prisma.user.update({
       where: { id: userId },
-      data: dynamicData,
+      data: {
+        fullname,
+        username,
+        role,
+        ...(password && { password: await bcrypt.hash(password, 10) }),
+      },
     });
 
     return {
