@@ -3,30 +3,14 @@
 import prisma from "@/lib/db";
 import { deleteFromBucket } from "@/lib/storage/delete-from-bucket";
 import { extractFilePathFromUrl } from "@/lib/storage/extract-path";
-import { uploadToBucket } from "@/lib/storage/upload-to-bucket";
 
 type Params = {
   id: string;
   name: string;
-  logo?: File;
+  logoUrl?: string;
 };
 
-async function generateLogoUrl(file?: File) {
-  if (!file) return null;
-
-  const { results } = await uploadToBucket({
-    bucketName: "publisher-logos",
-    files: file,
-  });
-
-  if (results && results.length > 0) {
-    return results[0].publicUrl || null;
-  }
-
-  return null;
-}
-
-async function updatePublisher({ id, name, logo }: Params) {
+async function updatePublisher({ id, name, logoUrl }: Params) {
   if (!id || !name) {
     return {
       status: "error",
@@ -47,7 +31,7 @@ async function updatePublisher({ id, name, logo }: Params) {
     }
 
     const existingLogoUrl = existingPublisher?.logoUrl;
-    if (logo && existingLogoUrl) {
+    if (logoUrl && existingLogoUrl) {
       const filePath = extractFilePathFromUrl({
         bucketName: "publisher-logos",
         url: existingLogoUrl,
@@ -65,8 +49,6 @@ async function updatePublisher({ id, name, logo }: Params) {
         };
       }
     }
-
-    const logoUrl = logo ? await generateLogoUrl(logo) : undefined;
 
     const newPublisher = await prisma.publisher.update({
       where: { id },
