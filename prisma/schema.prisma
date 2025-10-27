@@ -106,18 +106,17 @@ model Ebook {
   curriculum     Curriculum     @default(NONCURRICULUM)
   classLevel     ClassLevel     @default(NONCLASS)
   educationLevel EducationLevel @default(UMUM)
-  categoryId     String?
-  category       Category?      @relation(fields: [categoryId], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  thumbnail      String?
-  publishedAt    DateTime       @default(now())
+  fileUrl        String
+  thumbnailUrl   String
   price          Float          @default(0.0)
   users          User[]
   type           EbookType      @default(NONBSE)
+  categoryId     String?
+  category       Category?      @relation(fields: [categoryId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   subjects       Subjects?      @relation(fields: [subjectsId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   subjectsId     String?
   publisher      Publisher?     @relation(fields: [publisherId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   publisherId    String?
-  fileUrl        String
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
 }
