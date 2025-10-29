@@ -33,6 +33,7 @@ export default function AddPublisherModal() {
     try {
       const { data: logoUrls } = await getFilesURL({
         files: logo,
+        bucketName: "publisher-logos",
       });
 
       const logoUrl = logoUrls ? logoUrls[0] : undefined;

@@ -1,8 +1,10 @@
 import { uploadToBucket } from "./upload-to-bucket";
 
 export default async function getFilesURL({
+  bucketName,
   files,
 }: {
+  bucketName: string;
   files?: File | Blob | (File | Blob)[];
 }) {
   if (!files)
@@ -16,7 +18,7 @@ export default async function getFilesURL({
 
   try {
     const { status, results, message } = await uploadToBucket({
-      bucketName: "publisher-logos",
+      bucketName,
       files: fileArray,
     });
 
