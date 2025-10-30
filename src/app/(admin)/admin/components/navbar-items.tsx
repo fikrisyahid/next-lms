@@ -10,6 +10,7 @@ type NavbarItemsProps = {
   leftIcon: ReactNode;
   href?: string;
   subItems?: { label: string; href: string }[];
+  onClick?: () => void;
 };
 
 export default function NavbarItems({
@@ -17,6 +18,7 @@ export default function NavbarItems({
   leftIcon,
   href,
   subItems,
+  onClick,
 }: NavbarItemsProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(true);
@@ -30,6 +32,7 @@ export default function NavbarItems({
         className={`flex items-center w-full px-3 py-2 text-left rounded-lg transition hover:bg-gray-800 text-gray-200 ${
           isActive ? "bg-gray-800" : ""
         }`}
+        onClick={onClick}
       >
         {leftIcon}
         <span className="flex-1 text-sm">{label}</span>
@@ -60,6 +63,7 @@ export default function NavbarItems({
             <Link
               key={item.label}
               href={item.href}
+              onClick={onClick}
               className={`block px-2 py-1 text-sm text-gray-300 hover:text-white hover:bg-gray-800 rounded-md transition ${
                 pathname === item.href ? "bg-gray-800" : ""
               }`}

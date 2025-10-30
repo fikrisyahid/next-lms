@@ -12,7 +12,7 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import type { ReactNode } from "react";
-import NavbarItems from "@/components/navbar-items";
+import NavbarItems from "./components/navbar-items";
 
 const sidebarContents = [
   {
@@ -124,6 +124,11 @@ export default function AdminLayoutClient({
                 href={item.href}
                 subItems={item.subItems}
                 leftIcon={<item.icon className="w-5 h-5 mr-2" />}
+                onClick={() => {
+                  if (opened) {
+                    toggle();
+                  }
+                }}
               />
             ))}
           </div>
