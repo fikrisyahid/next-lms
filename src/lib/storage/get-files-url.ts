@@ -11,7 +11,7 @@ export default async function getFilesURL({
   files,
 }: {
   bucketName: string;
-  files?: File | Blob | (File | Blob)[];
+  files?: File | Blob | (File | Blob)[] | null;
 }): Promise<FileUploadResponse> {
   if (!files)
     return {
