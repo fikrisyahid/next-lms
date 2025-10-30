@@ -1,12 +1,18 @@
 import { uploadToBucket } from "./upload-to-bucket";
 
+type FileUploadResponse = {
+  status: "success" | "error";
+  message: string;
+  data?: string[] | null;
+};
+
 export default async function getFilesURL({
   bucketName,
   files,
 }: {
   bucketName: string;
   files?: File | Blob | (File | Blob)[];
-}) {
+}): Promise<FileUploadResponse> {
   if (!files)
     return {
       status: "error",
