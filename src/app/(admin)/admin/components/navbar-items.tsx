@@ -21,7 +21,7 @@ export default function NavbarItems({
   onClick,
 }: NavbarItemsProps) {
   const pathname = usePathname();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const isActive = href && pathname === href;
 
   // If there are no subItems, render a simple link
