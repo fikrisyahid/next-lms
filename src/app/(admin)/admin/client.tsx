@@ -1,7 +1,14 @@
 "use client";
 
 import logout from "@/lib/auth/logout";
-import { AppShell, Burger, Button, Group, Text } from "@mantine/core";
+import {
+  AppShell,
+  Burger,
+  Button,
+  Group,
+  ScrollArea,
+  Text,
+} from "@mantine/core";
 import {
   IconBooks,
   IconUsers,
@@ -27,6 +34,32 @@ const sidebarContents = [
       { label: "Daftar", href: "/admin/ebooks" },
       { label: "Kategori", href: "/admin/ebooks/categories" },
       { label: "Mata Pelajaran", href: "/admin/ebooks/subjects" },
+      { label: "Kurikulum", href: "/admin/ebooks/curriculums" },
+      { label: "Jenjang Sekolah", href: "/admin/ebooks/education-levels" },
+      { label: "Kelas", href: "/admin/ebooks/class-levels" },
+      { label: "Tipe", href: "/admin/ebooks/types" },
+    ],
+  },
+  {
+    label: "Video",
+    icon: IconBooks,
+    subItems: [
+      { label: "Daftar", href: "/admin/video" },
+      { label: "Kategori", href: "/admin/video/categories" },
+      { label: "Mata Pelajaran", href: "/admin/video/subjects" },
+      { label: "Jenjang Sekolah", href: "/admin/video/education-levels" },
+      { label: "Kelas", href: "/admin/video/class-levels" },
+    ],
+  },
+  {
+    label: "Animasi",
+    icon: IconBooks,
+    subItems: [
+      { label: "Daftar", href: "/admin/animation" },
+      { label: "Kategori", href: "/admin/animation/categories" },
+      { label: "Mata Pelajaran", href: "/admin/animation/subjects" },
+      { label: "Jenjang Sekolah", href: "/admin/animation/education-levels" },
+      { label: "Kelas", href: "/admin/animation/class-levels" },
     ],
   },
   {
@@ -116,22 +149,24 @@ export default function AdminLayoutClient({
               color="white"
             />
           </Group>
-          <div className="flex-1 space-y-2">
-            {sidebarContents.map((item) => (
-              <NavbarItems
-                key={item.label}
-                label={item.label}
-                href={item.href}
-                subItems={item.subItems}
-                leftIcon={<item.icon className="w-5 h-5 mr-2" />}
-                onClick={() => {
-                  if (opened) {
-                    toggle();
-                  }
-                }}
-              />
-            ))}
-          </div>
+          <ScrollArea className="h-full">
+            <div className="flex-1 space-y-2">
+              {sidebarContents.map((item) => (
+                <NavbarItems
+                  key={item.label}
+                  label={item.label}
+                  href={item.href}
+                  subItems={item.subItems}
+                  leftIcon={<item.icon className="w-5 h-5 mr-2" />}
+                  onClick={() => {
+                    if (opened) {
+                      toggle();
+                    }
+                  }}
+                />
+              ))}
+            </div>
+          </ScrollArea>
 
           <div className="mt-auto pt-4">
             <Button
