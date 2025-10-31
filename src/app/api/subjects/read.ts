@@ -6,7 +6,7 @@ type GetAllSubjectsParams = {
   ebooks_count?: boolean;
 };
 
-async function getAllSubjects({ ebooks_count }: GetAllSubjectsParams) {
+async function getAllSubjects({ ebooks_count }: GetAllSubjectsParams = {}) {
   try {
     const additionalSelect = ebooks_count
       ? {

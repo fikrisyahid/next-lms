@@ -11,7 +11,7 @@ type GetAllCategoriesParams = {
 async function getAllCategories({
   ebooks_count,
   type,
-}: GetAllCategoriesParams) {
+}: GetAllCategoriesParams = {}) {
   try {
     const additionalSelect = ebooks_count
       ? {
